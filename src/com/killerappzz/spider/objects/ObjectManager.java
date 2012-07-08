@@ -96,16 +96,19 @@ public class ObjectManager extends SimpleOnGestureListener{
 
 	public void updatePositions(float timeDeltaSeconds) {
 		// check for potential scene state switch
-		boolean needExpand = needExpansion(game.getScreenWidth(), game.getScreenHeight());
-		if(state.equals(SceneState.OBJECT_MOVE)){
+		boolean xExpansion = needXExpansion(game.getScreenWidth());
+		boolean yExpansion = needYExpansion(game.getScreenHeight());
+		boolean needExpand = xExpansion || yExpansion;
+		if(state.equals(SceneState.OBJECT_MOVE)) {
 			if(needExpand) {
 				for(DrawableObject backgroundObject : this.backgroundObjects){
-					backgroundObject.setVelocity(needXExpansion(game.getScreenWidth()) ? spider.getVelocityX() : 0, 
-							needYExpansion(game.getScreenHeight()) ? -spider.getVelocityY() : 0);
+					backgroundObject.setVelocity( xExpansion ? spider.getVelocityX() : 0, 
+							yExpansion ? -spider.getVelocityY() : 0);
 					backgroundObject.resume();
 				}
 				for(DrawableObject sceneObject: this.sceneObjects) {
-					sceneObject.pause();
+					sceneObject.pauseX(xExpansion);
+					sceneObject.pauseY(yExpansion);
 				}
 				this.state = SceneState.SCENE_MOVE;
 			}
@@ -128,10 +131,6 @@ public class ObjectManager extends SimpleOnGestureListener{
 				object.boundsCheck(game.getScreenWidth(), game.getScreenHeight());
 			}
 		}
-	}
-	
-	private boolean needExpansion(int screenWidth, int screenHeight) {
-		return needXExpansion(screenWidth) || needYExpansion(screenHeight);
 	}
 	
 	public boolean needXExpansion(int screenWidth) {

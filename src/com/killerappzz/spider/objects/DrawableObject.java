@@ -16,8 +16,9 @@ public abstract class DrawableObject {
     private float velocityX;
     private float velocityY;
     
-    // quick'n'dirty pause movement switch
-    private boolean paused = false;
+    // quick'n'dirty pause movement switch, per movement direction
+    private boolean pausedX = false;
+    private boolean pausedY = false;
     
     public void setVelocity(float velocityX, float velocityY) {
     	// store the velocities in normalized format
@@ -47,19 +48,27 @@ public abstract class DrawableObject {
     public float width;
     public float height;
     
-    public void pause() {
-    	this.paused = true;
+    public void pauseX(boolean pauseFlag) {
+    	this.pausedX = pauseFlag;
     }
     
+    public void pauseY(boolean pauseFlag) {
+    	this.pausedY = pauseFlag;
+    }
+    
+    public void pause() {
+    	this.pausedX = this.pausedY = true;
+	}
+    
     public void resume() {
-    	this.paused = false;
+    	this.pausedX = this.pausedY = false;
     }
     
     public void updatePosition(float timeDeltaSeconds) {
-    	if(!paused) {
+    	if(!pausedX) 
     		this.x = this.x + (this.velocityX * this.speed * timeDeltaSeconds);
+    	if(!pausedY)
     		this.y = this.y + (this.velocityY * this.speed * timeDeltaSeconds);
-    	}
 	}
     
     /**
