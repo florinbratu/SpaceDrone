@@ -131,18 +131,18 @@ public class ObjectManager extends SimpleOnGestureListener{
 	}
 	
 	private boolean needExpansion(int screenWidth, int screenHeight) {
-		return needXExpansion(screenWidth) && needYExpansion(screenHeight);
+		return needXExpansion(screenWidth) || needYExpansion(screenHeight);
 	}
 	
 	public boolean needXExpansion(int screenWidth) {
 		return ((spider.x < screenWidth * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityX() < 0.0f) 
-                || (spider.x > screenWidth - spider.width - screenWidth * Constants.EXPANSION_PERCENTILE / 100
+                || (spider.x > screenWidth - screenWidth * Constants.EXPANSION_PERCENTILE / 100
                         && spider.getVelocityX() > 0.0f));
 	}
 	
 	public boolean needYExpansion(int screenHeight) {
 		return ((spider.y < screenHeight * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityY() < 0.0f) 
-                || (spider.y > screenHeight - spider.height - screenHeight * Constants.EXPANSION_PERCENTILE / 100 
+                || (spider.y > screenHeight - screenHeight * Constants.EXPANSION_PERCENTILE / 100 
                         && spider.getVelocityY() > 0.0f));
 	}
 
