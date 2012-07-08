@@ -1,5 +1,7 @@
 package com.killerappzz.spider.objects;
 
+import com.killerappzz.spider.objects.ObjectManager.SceneState;
+
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
@@ -29,11 +31,14 @@ public class Background extends Sprite{
 	private final int scrWidth;
 	private final int scrHeight;
 	
+	private final ObjectManager om;
+	
 	public Background(Context context, Options bitmapOptions, int resourceId,
-			int scrWidth, int scrHeight) {
+			int scrWidth, int scrHeight, ObjectManager manager) {
 		super(context, bitmapOptions, resourceId);
 		this.scrWidth = scrWidth;
 		this.scrHeight = scrHeight;
+		this.om = manager;
 		this.x = this.y = 0;
 		setVelocity(0, 0);
 		this.sourceRect = new Rect(0, 0, scrWidth, scrHeight);
@@ -79,6 +84,15 @@ public class Background extends Sprite{
 		super.updatePosition(timeDeltaSeconds);
 		this.sourceRect.set((int)this.x, (int)this.y, 
 				(int)this.x + this.scrWidth, (int)this.y + this.scrHeight);
+	}
+	
+	@Override
+	public void setVelocity(float velocityX, float velocityY) {
+		super.setVelocity(velocityX, velocityY);
+		if(velocityX == 0 && velocityY == 0 
+				&& SceneState.SCENE_MOVE.equals(this.om.state)) {
+			this.om.doneScreenScrollBackground();
+		}
 	}
 	
 }

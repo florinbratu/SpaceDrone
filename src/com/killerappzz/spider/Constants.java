@@ -13,4 +13,9 @@ public interface Constants {
 	 * sa traverseze tot ecranul!
 	 */
 	public static final int DEFAULT_SPIDER_SPEED_FACTOR = 4;
+	
+	/* procentul de ecran pe care il mai afisez inainte 
+	 * sa incep sa scrollez ecranul
+	 * */
+	public static final int EXPANSION_PERCENTILE = 15;
 }
