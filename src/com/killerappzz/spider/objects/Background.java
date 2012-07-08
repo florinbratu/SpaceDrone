@@ -5,12 +5,16 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.RectF;
 
 /**
  * Abstraction of background image.
  * essentially a sprite, but with 
  * the underlying bitmap scaled to screen size
+ * 
+ * NB: the (x,y) coordinates are the coordinates
+ * of the upper left corner of the piece from the big img
+ * to be displayed on screen! Good to know when camera effect
+ * is made by moving the background selection window.
  * 
  * @author florin
  *
@@ -41,21 +45,23 @@ public class Background extends Sprite{
 		// the Background is actually larger than the Screen
 		// so the tests will be "upside down"
 		// the (x,y) coordinates are coordinates for 
-		// lower left corner. when background moves, he does it inverse to objs(negative velocity)
+		// upper left corner. when the background moves, 
+		// he does it inverse to objs(negative velocity)
 		// thus the rules for the bounds checking
-		if ((this.x > 0.0f && this.getVelocityX() > 0.0f) 
-                || (this.x < screenWidth - this.width
-                        && this.getVelocityX() < 0.0f)) {
-            this.x = Math.max(screenWidth - this.width, 
-                    Math.min(this.x, 0.0f));
+        
+        if ((this.x < 0.0f && this.getVelocityX() < 0.0f) 
+                || (this.x > this.width - screenWidth 
+                        && this.getVelocityX() > 0.0f)) {
+            this.x = Math.max(0.0f, 
+                    Math.min(this.x, this.width - screenWidth));
             this.setVelocity(0, 0);
         }
         
-        if ((this.y > 0.0f && this.getVelocityY() > 0.0f) 
-                || (this.y < screenHeight - this.height 
-                        && this.getVelocityY() < 0.0f)) {
-            this.y = Math.max(screenHeight - this.height, 
-                    Math.min(this.y, 0.0f));
+        if ((this.y < 0.0f && this.getVelocityY() < 0.0f) 
+                || (this.y > this.height  - screenHeight 
+                        && this.getVelocityY() > 0.0f)) {
+            this.y = Math.max(0.0f, 
+                    Math.min(this.y, this.height - screenHeight));
             this.setVelocity(0, 0);
         }
 	}
@@ -65,14 +71,14 @@ public class Background extends Sprite{
 		// hack to get rid of flickering
 		canvas.drawColor(Color.BLACK);
     	// display the selected window to be displayed
-    	canvas.drawBitmap(this.mBitmap, null, destRect, null);
+    	canvas.drawBitmap(this.mBitmap, sourceRect, destRect, null);
 	}
 	
 	@Override
 	public void updatePosition(float timeDeltaSeconds) {
 		super.updatePosition(timeDeltaSeconds);
-		this.sourceRect.set((int)this.x, (int)this.y + this.scrHeight, 
-				(int)this.x + this.scrWidth, (int)this.y);
+		this.sourceRect.set((int)this.x, (int)this.y, 
+				(int)this.x + this.scrWidth, (int)this.y + this.scrHeight);
 	}
 	
 }
