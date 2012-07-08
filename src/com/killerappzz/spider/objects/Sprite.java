@@ -64,5 +64,27 @@ public class Sprite extends DrawableObject {
     	mBitmap.recycle();
     	mBitmap = null;
     }
+
+	@Override
+	public void boundsCheck(int screenWidth, int screenHeight) {
+    	if ((this.x < 0.0f && this.getVelocityX() < 0.0f) 
+                || (this.x > screenWidth- this.width 
+                        && this.getVelocityX() > 0.0f)) {
+    		// TODO different behaviour for different objects
+    		// spider will "stick" to margins. the styx will bounce.
+    		// for the moment we have only spider behaviour
+            this.x = Math.max(0.0f, 
+                    Math.min(this.x, screenWidth - this.width));
+            this.setVelocity(0, 0);
+        }
+        
+        if ((this.y < 0.0f && this.getVelocityY() < 0.0f) 
+                || (this.y > screenHeight - this.height 
+                        && this.getVelocityY() > 0.0f)) {
+            this.y = Math.max(0.0f, 
+                    Math.min(this.y, screenHeight - this.height));
+            this.setVelocity(0, 0);
+        }
+	}
     
 }

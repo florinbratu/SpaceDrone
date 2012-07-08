@@ -55,17 +55,22 @@ public class Game {
         // Note that the background image is larger than the screen, 
         // so some clipping will occur when it is drawn.
 		Background background = new Background(context, sBitmapOptions, 
-				R.drawable.background, screenWidth, screenHeight );
+				R.drawable.background, screenWidth, screenHeight);
         manager.addObject(background);
         
         // Make the spider
         Sprite spider = new Sprite(context, sBitmapOptions, R.drawable.spider);
         // Spider location.
         int centerX = (this.screenWidth - (int)spider.width) / 2;
+        int centerY = (this.screenHeight - (int)spider.height) / 2;
         spider.x = centerX;
-        spider.y = 0;
+        spider.y = centerY;
         spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         manager.addSpider(spider);
+        
+        // hack some shit
+        // background.speed = - spider.speed;
+        // background.setVelocity(1, 0);
 
         // Now's a good time to run the GC.  Since we won't do any explicit
         // allocation during the test, the GC should stay dormant and not
