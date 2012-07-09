@@ -18,4 +18,8 @@ public interface Constants {
 	 * sa incep sa scrollez ecranul
 	 * */
 	public static final int EXPANSION_PERCENTILE = 15;
+	
+	public static final int STATS_POSITION_X = 0;
+	
+	public static final int STATS_POSITION_Y = 16;
 }

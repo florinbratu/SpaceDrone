@@ -4,11 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.engine.Game;
 
 /**
@@ -30,6 +32,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 	private final Game game;
 	// the scene movement state
 	public SceneState state;
+	private final Paint statsPaint;
 	
 	public ObjectManager(Game theGame) {
 		this.objects = new LinkedList<DrawableObject>();
@@ -37,6 +40,16 @@ public class ObjectManager extends SimpleOnGestureListener{
 		this.sceneObjects = new LinkedList<DrawableObject>();
 		this.state = SceneState.OBJECT_MOVE;
 		this.game = theGame;
+		statsPaint = newStatsPaint();
+	}
+	
+	private Paint newStatsPaint() {
+		Paint textPaint = new Paint();
+		textPaint.setAntiAlias(true);
+		textPaint.setDither(true);
+		textPaint.setStyle(Paint.Style.FILL);
+		textPaint.setTextSize(18);
+		return textPaint;
 	}
 	
 	public void addObject(DrawableObject object) {
@@ -63,6 +76,13 @@ public class ObjectManager extends SimpleOnGestureListener{
 		for(DrawableObject object : objects) {
     		object.draw(canvas);
     	}
+		// draw statistics
+		final ProfileRecorder profiler = ProfileRecorder.sSingleton;
+		final long frameTime = 
+                profiler.getAverageTime(ProfileRecorder.PROFILE_FRAME);
+		final int fps = frameTime > 0 ? 1000 / (int)frameTime : 0;
+		canvas.drawText("fps:" + fps, Constants.STATS_POSITION_X, 
+				Constants.STATS_POSITION_Y, statsPaint);
 	}
 	
 	public void cleanup() {
@@ -170,5 +190,5 @@ public class ObjectManager extends SimpleOnGestureListener{
 		else
 			return false;
 	}
-
+	
 }
