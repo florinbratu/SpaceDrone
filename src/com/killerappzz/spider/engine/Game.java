@@ -59,7 +59,7 @@ public class Game {
         manager.addBackgroundObject(background);
         
         // Make the Fence
-        Fence fence = new Fence(context, bitmapOptions);
+        Fence fence = new Fence(context, bitmapOptions, screenWidth, screenHeight);
         // TODO load from File
         manager.addBackgroundObject(fence);
         

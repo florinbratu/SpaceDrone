@@ -19,9 +19,14 @@ public class Fence extends DrawableObject {
 	private final GeometricPath perimeter;
 	private final Paint perimeterPaint;
 	
-	public Fence(Context context, Options bitmapOptions) {
+	private int scrWidth;
+	private int scrHeight;
+	
+	public Fence(Context context, Options bitmapOptions, int scrWidth, int scrHeight) {
 		this.x = this.y = 0;
 		setVelocity(0, 0);
+		this.scrWidth = scrWidth;
+		this.scrHeight = scrHeight;
 		this.perimeter = new GeometricPath();
 		this.perimeterPaint = Customization.getPerimeterPaint(context, bitmapOptions);
 	}
@@ -32,8 +37,10 @@ public class Fence extends DrawableObject {
 	public void inlineCreate(DrawableObject object) {
 		int size = 100;
 		this.perimeter.moveTo( object.x - size, object.y - size );
-		this.perimeter.lineTo( object.x + size, object.y - size );
-		this.perimeter.lineTo( object.x + size, object.y + size );
+		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y - size );
+		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y + size + this.scrHeight );
+		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size + this.scrHeight );
+		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size );
 		this.perimeter.lineTo( object.x - size, object.y + size );
 		this.perimeter.close();
 	}
@@ -87,8 +94,9 @@ public class Fence extends DrawableObject {
 	 */
 	@Override
 	public void updateScreen(int width, int height) {
+		this.scrHeight = height;
+		this.scrWidth = width;
 		// TODO for sure we will do stuff here, when we will do culling
-
 	}
 
 }
