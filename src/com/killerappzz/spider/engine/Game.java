@@ -8,7 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 
 import com.killerappzz.spider.Constants;
-import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.ObjectManager;
@@ -39,13 +38,13 @@ public class Game {
         screenWidth = dm.widthPixels;
         screenHeight = dm.heightPixels;
         
-        // Clear out any old profile results.
-        ProfileRecorder.sSingleton.resetAll();
-        
         manager = new ObjectManager(this);
 		renderer = new GameRenderer(manager);
 		bitmapOptions = new BitmapFactory.Options();
 		touchHandler = new GestureDetector(parentActivity, manager);
+		
+        // Clear out any old profile results.
+		renderer.getProfiler().resetAll();
 	}
 	
 	public void load(Context context) {

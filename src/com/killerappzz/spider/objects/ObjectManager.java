@@ -77,7 +77,7 @@ public class ObjectManager extends SimpleOnGestureListener{
     		object.draw(canvas);
     	}
 		// draw statistics
-		final ProfileRecorder profiler = ProfileRecorder.sSingleton;
+		final ProfileRecorder profiler = game.getRenderer().getProfiler();
 		final long frameTime = 
                 profiler.getAverageTime(ProfileRecorder.PROFILE_FRAME);
 		final int fps = frameTime > 0 ? 1000 / (int)frameTime : 0;

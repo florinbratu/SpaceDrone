@@ -120,6 +120,8 @@ public class CanvasSurfaceView extends SurfaceView
          * @param canvas The target canvas to draw into.
          */
         void drawFrame(Canvas canvas);
+        
+        ProfileRecorder getProfiler();
     }
 
 
@@ -158,7 +160,7 @@ public class CanvasSurfaceView extends SurfaceView
              * This is our main activity thread's loop, we go until
              * asked to quit.
              */
-            final ProfileRecorder profiler = ProfileRecorder.sSingleton;
+            final ProfileRecorder profiler = mRenderer.getProfiler();
             while (!mDone) {
                 profiler.start(ProfileRecorder.PROFILE_FRAME);
                 /*

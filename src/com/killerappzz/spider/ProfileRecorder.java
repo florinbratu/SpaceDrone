@@ -22,8 +22,6 @@ public class ProfileRecorder {
     private ProfileRecord[] mProfiles;
     private int mFrameCount;
     
-    public static ProfileRecorder sSingleton = new ProfileRecorder();
-    
     public ProfileRecorder() {
         mProfiles = new ProfileRecord[PROFILE_COUNT];
         for (int x = 0; x < PROFILE_COUNT; x++) {
