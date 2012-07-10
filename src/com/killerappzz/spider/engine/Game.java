@@ -10,6 +10,7 @@ import android.view.GestureDetector;
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
+import com.killerappzz.spider.objects.Fence;
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.Spider;
 import com.killerappzz.spider.rendering.GameRenderer;
@@ -57,6 +58,11 @@ public class Game {
 				R.drawable.background, screenWidth, screenHeight, manager);
         manager.addBackgroundObject(background);
         
+        // Make the Fence
+        Fence fence = new Fence(context, bitmapOptions);
+        fence.inlineCreate();
+        manager.addBackgroundObject(fence);
+        
         // Make the spider
         Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager);
         // Spider location.
@@ -66,7 +72,9 @@ public class Game {
         spider.y = centerY;
         spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         manager.addSpider(spider);
-        background.speed = spider.speed;
+        
+        // set speeds of Background objects
+        manager.setBackgroundSpeeds(spider);
         
         // Now's a good time to run the GC.  Since we won't do any explicit
         // allocation during the test, the GC should stay dormant and not

@@ -196,5 +196,10 @@ public class ObjectManager extends SimpleOnGestureListener{
 			obj.updateScreen(width, height);
 		}
 	}
+
+	public void setBackgroundSpeeds(Spider spider) {
+		for(DrawableObject backgroundObject : this.backgroundObjects)
+			backgroundObject.speed = spider.speed;
+	}
 	
 }
