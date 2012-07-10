@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
 
 import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.engine.Game;
 
@@ -40,16 +41,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 		this.sceneObjects = new LinkedList<DrawableObject>();
 		this.state = SceneState.OBJECT_MOVE;
 		this.game = theGame;
-		statsPaint = newStatsPaint();
-	}
-	
-	private Paint newStatsPaint() {
-		Paint textPaint = new Paint();
-		textPaint.setAntiAlias(true);
-		textPaint.setDither(true);
-		textPaint.setStyle(Paint.Style.FILL);
-		textPaint.setTextSize(18);
-		return textPaint;
+		statsPaint = Customization.getStatsPaint();
 	}
 	
 	public void addObject(DrawableObject object) {

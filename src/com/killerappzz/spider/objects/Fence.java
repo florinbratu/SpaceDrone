@@ -3,8 +3,9 @@ package com.killerappzz.spider.objects;
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+
+import com.killerappzz.spider.Customization;
 
 /**
  * The Fence, defining the bounds within which the
@@ -22,7 +23,7 @@ public class Fence extends DrawableObject {
 		this.x = this.y = 0;
 		setVelocity(0, 0);
 		this.perimeter = new GeometricPath();
-		this.perimeterPaint = getPerimeterPaint(context, bitmapOptions);
+		this.perimeterPaint = Customization.getPerimeterPaint(context, bitmapOptions);
 	}
 	
 	/* create some perimeter around the given Object.
@@ -40,32 +41,6 @@ public class Fence extends DrawableObject {
 	// Load perimeter geometry from file
 	public void loadFromFile() {
 		// TODO TODO TODO!
-	}
-	
-	/*
-	 * TODO move this to Customization class
-	 */
-	/*
-	 * look and feel-ul perimetrului
-	 */
-	public static final int CLAIMED_COLOR = Color.BLACK;
-	public static final float CLAIMED_STROKE_WIDTH = 2;
-	private Paint getPerimeterPaint(Context context, Options bitmapOptions) {
-		Paint perimeterPaint = new Paint();
-		// initialize the paint
-        perimeterPaint.setAntiAlias(true);
-        perimeterPaint.setDither(true);
-        perimeterPaint.setColor(CLAIMED_COLOR);
-        perimeterPaint.setStyle(Paint.Style.STROKE);
-        perimeterPaint.setStrokeWidth(CLAIMED_STROKE_WIDTH);
-        // set the spider texture
-        /* TODO activate this while drawing borders artistically
-         * claimedPathPaint.setShader(
-        		new BitmapShader(
-        				loadFromRes(context, bitmapOptions, R.drawable.spiderweb), 
-        				TileMode.REPEAT, TileMode.REPEAT));
-        claimedPathPaint.setFilterBitmap(true);*/
-        return perimeterPaint;
 	}
 
 	/* (non-Javadoc)
