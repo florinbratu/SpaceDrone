@@ -82,5 +82,7 @@ public abstract class DrawableObject {
     
     public abstract void draw(Canvas canvas);
     public abstract void cleanup();
+    
+    public abstract void updateScreen(int width, int height);
 
 }

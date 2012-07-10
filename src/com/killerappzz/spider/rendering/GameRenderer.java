@@ -26,7 +26,7 @@ public class GameRenderer implements Renderer {
     }
 
     public void sizeChanged(int width, int height) {
-        // huh???
+        this.om.updateScreen(width,height);
     }
 
 	@Override

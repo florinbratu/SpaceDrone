@@ -28,8 +28,8 @@ public class Background extends Sprite{
 	private final Rect sourceRect;
 	private final Rect destRect;
 	
-	private final int scrWidth;
-	private final int scrHeight;
+	private int scrWidth;
+	private int scrHeight;
 	
 	private final ObjectManager om;
 	
@@ -93,6 +93,12 @@ public class Background extends Sprite{
 				&& SceneState.SCENE_MOVE.equals(this.om.state)) {
 			this.om.doneScreenScrollBackground();
 		}
+	}
+
+	@Override
+	public void updateScreen(int width, int height) {
+		this.scrWidth = width;
+		this.scrHeight = height;
 	}
 	
 }

@@ -30,4 +30,9 @@ public class Spider extends Sprite {
 		}
 	}
 
+	@Override
+	public void updateScreen(int width, int height) {
+		// TODO maybe useful in za future
+	}
+
 }

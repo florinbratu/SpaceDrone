@@ -190,5 +190,11 @@ public class ObjectManager extends SimpleOnGestureListener{
 		else
 			return false;
 	}
+
+	public void updateScreen(int width, int height) {
+		for(DrawableObject obj:this.objects) {
+			obj.updateScreen(width, height);
+		}
+	}
 	
 }
