@@ -77,12 +77,25 @@ public class Fence extends DrawableObject {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.killerappzz.spider.objects.DrawableObject#draw(android.graphics.Canvas)
-	 */
 	@Override
 	public void draw(Canvas canvas) {
 		canvas.drawPath(this.perimeter, this.perimeterPaint);
+	}
+	
+	@Override
+	public void updatePosition(float timeDeltaSeconds) {
+		float oldX = this.x;
+		float oldY = this.y;
+		super.updatePosition(timeDeltaSeconds);
+		if(oldX != this.x || oldY != this.y) {
+			this.perimeter.offset(this.x - oldX, this.y - oldY);
+		}
+	}
+	
+	// OBS this relies on the fact that setVelocity is called only from ObjectManager!!!
+	@Override
+	public void setVelocity(float velocityX, float velocityY) {
+		super.setVelocity(-velocityX, -velocityY);
 	}
 
 	/* (non-Javadoc)
