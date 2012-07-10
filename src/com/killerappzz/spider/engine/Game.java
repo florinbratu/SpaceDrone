@@ -28,8 +28,7 @@ public class Game {
 	
     private final ObjectManager manager;
     private final GameRenderer renderer;
-    private static BitmapFactory.Options sBitmapOptions 
-      = new BitmapFactory.Options();
+    private final BitmapFactory.Options bitmapOptions;
     private GestureDetector touchHandler;
 	
 	public Game(Activity parentActivity) {
@@ -45,21 +44,22 @@ public class Game {
         
         manager = new ObjectManager(this);
 		renderer = new GameRenderer(manager);
+		bitmapOptions = new BitmapFactory.Options();
 		touchHandler = new GestureDetector(parentActivity, manager);
 	}
 	
 	public void load(Context context) {
 		// Sets our preferred image format to 16-bit, 565 format.
-		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
+		bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 		// Make the background.
         // Note that the background image is larger than the screen, 
         // so some clipping will occur when it is drawn.
-		Background background = new Background(context, sBitmapOptions, 
+		Background background = new Background(context, bitmapOptions, 
 				R.drawable.background, screenWidth, screenHeight, manager);
         manager.addBackgroundObject(background);
         
         // Make the spider
-        Spider spider = new Spider(context, sBitmapOptions, R.drawable.spider, manager);
+        Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager);
         // Spider location.
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         int centerY = (this.screenHeight - (int)spider.height) / 2;
