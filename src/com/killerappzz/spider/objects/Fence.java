@@ -25,12 +25,15 @@ public class Fence extends DrawableObject {
 		this.perimeterPaint = getPerimeterPaint(context, bitmapOptions);
 	}
 	
-	/* create some perimeter from in-memory values */
-	public void inlineCreate() {
-		this.perimeter.moveTo(0, 0);
-		this.perimeter.lineTo(200, 0);
-		this.perimeter.lineTo(200, 200);
-		this.perimeter.lineTo(0, 200);
+	/* create some perimeter around the given Object.
+	 * Just for testing purposes...
+	 * */
+	public void inlineCreate(DrawableObject object) {
+		int size = 100;
+		this.perimeter.moveTo( object.x - size, object.y - size );
+		this.perimeter.lineTo( object.x + size, object.y - size );
+		this.perimeter.lineTo( object.x + size, object.y + size );
+		this.perimeter.lineTo( object.x - size, object.y + size );
 		this.perimeter.close();
 	}
 	
@@ -46,7 +49,7 @@ public class Fence extends DrawableObject {
 	 * look and feel-ul perimetrului
 	 */
 	public static final int CLAIMED_COLOR = Color.BLACK;
-	public static final float CLAIMED_STROKE_WIDTH = 10;
+	public static final float CLAIMED_STROKE_WIDTH = 2;
 	private Paint getPerimeterPaint(Context context, Options bitmapOptions) {
 		Paint perimeterPaint = new Paint();
 		// initialize the paint

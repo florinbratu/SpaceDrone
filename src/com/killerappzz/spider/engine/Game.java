@@ -60,7 +60,7 @@ public class Game {
         
         // Make the Fence
         Fence fence = new Fence(context, bitmapOptions);
-        fence.inlineCreate();
+        // TODO load from File
         manager.addBackgroundObject(fence);
         
         // Make the spider
@@ -73,6 +73,7 @@ public class Game {
         spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         manager.addSpider(spider);
         
+        fence.inlineCreate(spider);
         // set speeds of Background objects
         manager.setBackgroundSpeeds(spider);
         
