@@ -101,6 +101,16 @@ public class GeometricPath extends Path {
 		super.reset();
 	}
 	
+	@Override
+	public void offset(float dx, float dy) {
+		super.offset(dx, dy);
+		// handle local offsets, well... locally!
+		this.center.offset(dx,dy);
+		for(Point2D vertex: this.vertices) {
+			vertex.offset(dx,dy);
+		}
+	}
+	
 	/**
 	 * Adauga path-ul la configuratia curenta.
 	 * Fara a tine cont insa de moveTo-uri!

@@ -227,4 +227,10 @@ public class Point extends Point2D implements java.io.Serializable {
     public String toString() {
         return getClass().getName() + "[x=" + x + ",y=" + y + "]";
     }
+
+	@Override
+	public void offset(double dx, double dy) {
+		this.x += (int) Math.floor(dx+0.5);
+        this.y += (int) Math.floor(dy+0.5);
+	}
 }

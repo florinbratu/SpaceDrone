@@ -136,6 +136,17 @@ public abstract class Point2D implements Cloneable {
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = -2870572449815403710L;
+
+		@Override
+		public void offset(double dx, double dy) {
+			this.x += (float)dx;
+			this.y += (float)dy;
+		}
+		
+		public void offset(float dx, float dy) {
+			this.x += dx;
+			this.y += dy;
+		}
     }
 
     /**
@@ -220,6 +231,17 @@ public abstract class Point2D implements Cloneable {
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = 6150783262733311327L;
+
+		@Override
+		public void offset(double dx, double dy) {
+			this.x += dx;
+			this.y += dy;
+		}
+		
+		public void offset(float dx, float dy) {
+			this.x += (float)dx;
+			this.y += (float)dy;
+		}
     }
 
     /**
@@ -262,6 +284,8 @@ public abstract class Point2D implements Cloneable {
      * @since 1.2
      */
     public abstract void setLocation(double x, double y);
+    
+    public abstract void offset(double dx, double dy);
 
     /**
      * Sets the location of this <code>Point2D</code> to the same
@@ -425,4 +449,5 @@ public abstract class Point2D implements Cloneable {
         }
         return super.equals(obj);
     }
+
 }
