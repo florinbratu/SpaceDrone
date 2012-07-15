@@ -1,5 +1,8 @@
 package com.killerappzz.spider.objects;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.graphics.Path;
 import android.graphics.RectF;
 
@@ -23,11 +26,14 @@ public class GeometricPath extends Path {
 	private final Point2D center;
 	// the path number of points
 	private int vertexCount;
+	// the points list
+	private final List<Point2D> vertices;
 	
 	public GeometricPath() {
 		this.geometry = new Path2D.Float();
 		this.center = new Point2D.Float();
 		this.vertexCount = 0;
+		this.vertices = new LinkedList<Point2D>();
 	}
 	
 	public GeometricPath(GeometricPath trailingPath) {
@@ -35,6 +41,11 @@ public class GeometricPath extends Path {
 		// not really used...
 		this.geometry = trailingPath.geometry;
 		this.center = trailingPath.center;
+		this.vertices = trailingPath.vertices;
+	}
+	
+	public List<Point2D> getVertices() {
+		return this.vertices;
 	}
 
 	@Override
@@ -42,6 +53,7 @@ public class GeometricPath extends Path {
 		this.geometry.moveTo(x, y);
 		this.center.setLocation(x, y);
 		this.vertexCount++;
+		this.vertices.add(new Point2D.Float(x,y));
 		super.moveTo(x, y);
 	}
 	
@@ -55,6 +67,7 @@ public class GeometricPath extends Path {
 		this.center.setLocation((vertexCount * center.getX() + x) / (vertexCount + 1), 
 				(vertexCount * center.getY() + y) / (vertexCount + 1));
 		this.vertexCount++;
+		this.vertices.add(new Point2D.Float(x,y));
 		super.lineTo(x, y);
 	}
 	
@@ -74,7 +87,18 @@ public class GeometricPath extends Path {
 		// reset center
 		this.center.setLocation(0, 0);
 		this.vertexCount = 0;
+		this.vertices.clear();
 		super.rewind();
+	}
+	
+	@Override
+	public void reset() {
+		this.geometry.reset();
+		// reset center
+		this.center.setLocation(0, 0);
+		this.vertexCount = 0;
+		this.vertices.clear();
+		super.reset();
 	}
 	
 	/**

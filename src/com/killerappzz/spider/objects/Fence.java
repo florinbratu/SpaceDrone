@@ -1,11 +1,16 @@
 package com.killerappzz.spider.objects;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.killerappzz.spider.Customization;
+import com.killerappzz.spider.engine.ICollidable;
+import com.killerappzz.spider.geometry.Edge2D;
+import com.killerappzz.spider.geometry.Point2D;
 
 /**
  * The Fence, defining the bounds within which the
@@ -14,7 +19,7 @@ import com.killerappzz.spider.Customization;
  * @author florin
  *
  */
-public class Fence extends DrawableObject {
+public class Fence extends DrawableObject implements ICollidable{
 	
 	private final GeometricPath perimeter;
 	private final Paint perimeterPaint;
@@ -97,6 +102,37 @@ public class Fence extends DrawableObject {
 		this.scrHeight = height;
 		this.scrWidth = width;
 		// TODO for sure we will do stuff here, when we will do culling
+	}
+
+	@Override
+	public void collisionHandler() {
+		// TODO add sexy collision animation
+		
+	}
+	
+	private Edge2D collidedEdge = null;
+
+	/*
+	 * Collision test algorithm. 
+	 * Current complexity: O(N = no of edges)
+	 * TODO improve complexity
+	 */
+	public boolean collisionTest(Edge2D movementVector) {
+		this.collidedEdge = null;
+		Point2D currentVertex;
+		Point2D nextVertex;
+		Edge2D currentEdge = new Edge2D.Float();
+		List<Point2D> vertices = this.perimeter.getVertices();
+		for( int i = 0 ; i < vertices.size() - 1; i++) {
+			currentVertex = vertices.get(i);
+			nextVertex = vertices.get(i+1);
+			currentEdge.set(currentVertex, nextVertex); 
+			if(movementVector.touches(currentEdge)) {
+				this.collidedEdge = currentEdge;
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

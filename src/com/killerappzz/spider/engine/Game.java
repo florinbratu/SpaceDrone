@@ -61,7 +61,7 @@ public class Game {
         // Make the Fence
         Fence fence = new Fence(context, bitmapOptions, screenWidth, screenHeight);
         // TODO load from File
-        manager.addBackgroundObject(fence);
+        manager.addFence(fence);
         
         // Make the spider
         Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager);

@@ -13,6 +13,7 @@ import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.engine.Game;
+import com.killerappzz.spider.geometry.Edge2D;
 
 /**
  * Handles objects which are displayed on the screen
@@ -25,7 +26,9 @@ public class ObjectManager extends SimpleOnGestureListener{
 	
 	private final List<DrawableObject> objects; 
 	// spider is a special role
-	private Sprite spider;
+	private Spider spider;
+	// fence is another special role
+	private Fence fence;
 	// list of objects that appear in the background
 	private final List<DrawableObject> backgroundObjects;
 	// lit of objects that are in the scene
@@ -58,10 +61,16 @@ public class ObjectManager extends SimpleOnGestureListener{
 		this.sceneObjects.add(object);
 	}
 	
-	public void addSpider(Sprite spider){
+	public void addSpider(Spider spider){
 		this.objects.add(spider);
 		this.sceneObjects.add(spider);
 		this.spider = spider;
+	}
+	
+	public void addFence(Fence fence) {
+		this.objects.add(fence);
+		this.backgroundObjects.add(fence);
+		this.fence = fence;
 	}
 	
 	public void draw(Canvas canvas) {
@@ -143,8 +152,23 @@ public class ObjectManager extends SimpleOnGestureListener{
 				object.boundsCheck(game.getScreenWidth(), game.getScreenHeight());
 			}
 		}
+		
+		// check for collisions
+		collisionsCheck();
 	}
 	
+	// test for collision Drone -> Fence
+	private void collisionsCheck() {
+		if(this.fence.collisionTest(
+				this.spider.getMovementVector())) 
+		{
+			// we actually hit something!
+			// call collision handlers
+			this.spider.collisionHandler();
+			this.fence.collisionHandler();
+		}
+	}
+
 	public boolean needXExpansion(int screenWidth) {
 		return ((spider.x < screenWidth * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityX() < 0.0f) 
                 || (spider.x > screenWidth - screenWidth * Constants.EXPANSION_PERCENTILE / 100
