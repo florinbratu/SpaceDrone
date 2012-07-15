@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.ICollidable;
 import com.killerappzz.spider.geometry.Edge2D;
+import com.killerappzz.spider.geometry.PathIterator;
 import com.killerappzz.spider.geometry.Point2D;
 
 /**
@@ -118,19 +119,32 @@ public class Fence extends DrawableObject implements ICollidable{
 	 * TODO improve complexity
 	 */
 	public boolean collisionTest(Edge2D movementVector) {
+		Point2D startPoint = movementVector.getStartPoint();
+		// will not be considered collision if initial point not inside perimeter
+		if(!this.perimeter.contains( startPoint.getX(), startPoint.getY()))
+			return false;
 		this.collidedEdge = null;
-		Point2D currentVertex;
-		Point2D nextVertex;
+		
+		Point2D currentVertex = new Point2D.Float();
+		Point2D nextVertex = new Point2D.Float();
 		Edge2D currentEdge = new Edge2D.Float();
-		List<Point2D> vertices = this.perimeter.getVertices();
-		for( int i = 0 ; i < vertices.size() - 1; i++) {
-			currentVertex = vertices.get(i);
-			nextVertex = vertices.get(i+1);
+		float[] coords = new float[6];
+		PathIterator it = this.perimeter.getGeometry().getPathIterator(null);
+		// get first vertex
+		it.currentSegment(coords);
+		currentVertex.setLocation(coords[0], coords[1]);
+		it.next();
+		// iterate thru edgez
+		while(!it.isDone()){
+			it.currentSegment(coords);
+			nextVertex.setLocation(coords[0], coords[1]);
 			currentEdge.set(currentVertex, nextVertex); 
 			if(movementVector.touches(currentEdge)) {
 				this.collidedEdge = currentEdge;
 				return true;
 			}
+			it.next();
+			currentVertex.setLocation(nextVertex);
 		}
 		return false;
 	}
