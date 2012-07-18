@@ -152,6 +152,10 @@ public class GeometricPath extends Path {
 		return this.geometry.contains(x, y);
 	}
 	
+	public boolean contains(Point2D point) {
+		return contains(point.getX(), point.getY());
+	}
+	
 	public boolean contains(double x, double y) {
 		return contains((float)x, (float)y);
 	}

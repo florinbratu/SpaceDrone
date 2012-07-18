@@ -6,7 +6,9 @@ import android.content.Context;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.engine.ICollidable;
 import com.killerappzz.spider.geometry.Edge2D;
@@ -41,12 +43,26 @@ public class Fence extends DrawableObject implements ICollidable{
 	 * */
 	public void inlineCreate(DrawableObject object) {
 		int size = 100;
+		/* out of bounds polygon
 		this.perimeter.moveTo( object.x - size, object.y - size );
 		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y - size );
 		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y + size + this.scrHeight );
 		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size + this.scrHeight );
 		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size );
-		this.perimeter.lineTo( object.x - size, object.y + size );
+		this.perimeter.lineTo( object.x - size, object.y + size );*/
+		/* rectangle
+		this.perimeter.moveTo(100, 100);
+		this.perimeter.lineTo(this.scrWidth - 200, 100);
+		this.perimeter.lineTo(this.scrWidth - 200, this.scrHeight - 50);
+		this.perimeter.lineTo(100, this.scrHeight - 50);
+		*/
+		// hexagone
+		perimeter.moveTo(300, 0);
+		perimeter.lineTo(400,200);
+		perimeter.lineTo(400, 400);
+		perimeter.lineTo(300, 600);
+		perimeter.lineTo(200, 400);
+		perimeter.lineTo(200, 200);
 		this.perimeter.close();
 	}
 	
@@ -107,7 +123,6 @@ public class Fence extends DrawableObject implements ICollidable{
 	@Override
 	public void collisionHandler() {
 		// TODO add sexy collision animation
-		
 	}
 	
 	private Edge2D collidedEdge = null;
@@ -118,6 +133,10 @@ public class Fence extends DrawableObject implements ICollidable{
 	 * TODO improve complexity
 	 */
 	public boolean collisionTest(Edge2D movementVector) {
+		/*return this.perimeter.contains(movementVector.getStartPoint())
+				&& !this.perimeter.contains(movementVector.getEndPoint());*/
+		if(!this.perimeter.contains(movementVector.getStartPoint()))
+			return false;
 		this.collidedEdge = null;
 		Point2D currentVertex;
 		Point2D nextVertex;
@@ -129,8 +148,16 @@ public class Fence extends DrawableObject implements ICollidable{
 			currentEdge.set(currentVertex, nextVertex); 
 			if(movementVector.touches(currentEdge)) {
 				this.collidedEdge = currentEdge;
+				Log.d(Constants.DEBUG_TAG, "Hit edge: (" + i + " , " + (i+1) + ");");
 				return true;
 			}
+		}
+		// test final edge: (Vn-1, V0)
+		currentEdge.set(vertices.get(vertices.size() - 1), vertices.get(0));
+		if(movementVector.touches(currentEdge)) {
+			this.collidedEdge = currentEdge;
+			Log.d(Constants.DEBUG_TAG, "Hit edge: (" + (vertices.size() - 1) + " , 0);");
+			return true;
 		}
 		return false;
 	}
