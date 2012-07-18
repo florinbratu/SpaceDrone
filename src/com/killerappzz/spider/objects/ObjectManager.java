@@ -153,8 +153,11 @@ public class ObjectManager extends SimpleOnGestureListener{
 			}
 		}
 		
-		// check for collisions
-		collisionsCheck();
+		if(spider.speed!=0 && !(spider.getVelocityX() == 0 && spider.getVelocityY() == 0))
+		{
+			// check for collisions
+			collisionsCheck();
+		}
 	}
 	
 	// test for collision Drone -> Fence
