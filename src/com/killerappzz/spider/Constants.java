@@ -6,6 +6,8 @@ package com.killerappzz.spider;
  *
  */
 public interface Constants {
+	
+	public static final String DEBUG_TAG = "SPACEDRONE";
 
 	public static final int TOUCH_ERROR_TOLERANCE_PERCENTILE = 10;
 	
