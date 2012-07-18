@@ -64,7 +64,7 @@ public class Game {
         manager.addFence(fence);
         
         // Make the spider
-        Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager);
+        Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager, screenWidth, screenHeight);
         // Spider location.
         int centerX = (this.screenWidth - (int)spider.width) / 2;
         int centerY = (this.screenHeight - (int)spider.height) / 2;

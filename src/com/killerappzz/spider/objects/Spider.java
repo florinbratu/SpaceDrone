@@ -20,20 +20,35 @@ public class Spider extends Sprite implements ICollidable{
 	private final ObjectManager om;
 	// movement vector
 	private final Edge2D movementVector;
+    // screen dimensions
+    protected int screenWidth;
+    protected int screenHeight;
 
-	public Spider(Context context, Options bitmapOptions, int resourceId, ObjectManager manager) {
+	public Spider(Context context, Options bitmapOptions, int resourceId, ObjectManager manager,
+			int scrWidth, int scrHeight) {
 		super(context, bitmapOptions, resourceId);
 		this.om = manager;
 		this.movementVector = new Edge2D.Float();
+		this.screenWidth = scrWidth;
+		this.screenHeight = scrHeight;
+	}
+	
+	// coordinate conversion methods
+	public final float toScreenX(float worldX) {
+		return worldX + width/2;
+	}
+
+	public final float toScreenY(float worldY) {
+		return this.screenHeight - (worldY + height/2);
 	}
 	
 	@Override
 	public void updatePosition(float timeDeltaSeconds) {
 		// backup old pos
-		this.movementVector.setStartPoint(this.x, this.y);
+		this.movementVector.setStartPoint(toScreenX(this.x), toScreenY(this.y));
 		super.updatePosition(timeDeltaSeconds);
 		// set new pos - after update!
-		this.movementVector.setEndPoint(this.x, this.y);
+		this.movementVector.setEndPoint(toScreenX(this.x), toScreenY(this.y));
 	}
 	
 	public Edge2D getMovementVector() {
