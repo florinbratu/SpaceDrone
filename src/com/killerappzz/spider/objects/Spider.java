@@ -3,13 +3,11 @@
  */
 package com.killerappzz.spider.objects;
 
-import com.killerappzz.spider.Constants;
-import com.killerappzz.spider.engine.ICollidable;
-import com.killerappzz.spider.geometry.Edge2D;
-
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
-import android.util.Log;
+
+import com.killerappzz.spider.engine.ICollidable;
+import com.killerappzz.spider.geometry.Edge2D;
 
 /**
  * The main object of the game

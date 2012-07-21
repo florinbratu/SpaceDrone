@@ -39,12 +39,12 @@ public class Fence extends DrawableObject implements ICollidable{
 	public void inlineCreate(DrawableObject object) {
 		int size = 100;
 		// out of bounds polygon
-		this.perimeter.moveTo( object.x - size, object.y - size );
+		/*this.perimeter.moveTo( object.x - size, object.y - size );
 		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y - size );
 		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y + size + this.scrHeight );
 		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size + this.scrHeight );
 		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size );
-		this.perimeter.lineTo( object.x - size, object.y + size );
+		this.perimeter.lineTo( object.x - size, object.y + size );*/
 		/* rectangle
 		this.perimeter.moveTo(100, 100);
 		this.perimeter.lineTo(this.scrWidth - 200, 100);
@@ -52,12 +52,12 @@ public class Fence extends DrawableObject implements ICollidable{
 		this.perimeter.lineTo(100, this.scrHeight - 50);
 		*/
 		// hexagone
-		/*perimeter.moveTo(300, 0);
+		perimeter.moveTo(300, 0);
 		perimeter.lineTo(400,200);
 		perimeter.lineTo(400, 400);
 		perimeter.lineTo(300, 600);
 		perimeter.lineTo(200, 400);
-		perimeter.lineTo(200, 200);*/
+		perimeter.lineTo(200, 200);
 		this.perimeter.close();
 	}
 	
@@ -121,21 +121,24 @@ public class Fence extends DrawableObject implements ICollidable{
 	}
 	
 	private Edge2D collidedEdge = null;
+	private boolean bOldContains = true;
 
 	/*
 	 * Collision test algorithm. 
 	 * Current complexity: O(N = no of edges)
 	 * TODO improve complexity
+	 * TODO fill in collidedEdge, need this for FX
+	 * 
+	 * Cum functioneaza pt moment: ne bazam pe primitiva contains() a poligonului
+	 * care zice daca un pct e in interiorul poligonului sau nu.
+	 * Dar tre sa tinem cont ca si poligonul se misca!!
+	 * Atunci, algoritmul este: am collision daca:
+	 * - inainte de miscarea tuturor obiectelor, punctul era inauntru(de unde oldContains)
+	 * - dupa miscarea tuturor obiectelor, pct nu mai e inauntru
 	 */
 	public boolean collisionTest(Edge2D movementVector) {
-		return this.perimeter.contains(movementVector.getStartPoint())
-				&& !this.perimeter.contains(movementVector.getEndPoint());
-		/*if(!this.perimeter.contains(movementVector.getStartPoint())) {
-			Log.d(Constants.DEBUG_TAG, "The perimeter:" + this.perimeter);
-			return false;
-		}*/
-		/*Log.d(Constants.DEBUG_TAG, "Movement vektor:" + movementVector);
-		Log.d(Constants.DEBUG_TAG, "Path for colision:" + this.perimeter.verticesToString());
+		return bOldContains && !this.perimeter.contains(movementVector.getEndPoint());
+		/*
 		this.collidedEdge = null;
 		Point2D currentVertex;
 		Point2D nextVertex;
@@ -159,6 +162,10 @@ public class Fence extends DrawableObject implements ICollidable{
 			return true;
 		}
 		return false;*/
+	}
+
+	public void collisionPrefetch(Edge2D movementVector) {
+		bOldContains = this.perimeter.contains(movementVector.getStartPoint());
 	}
 
 }

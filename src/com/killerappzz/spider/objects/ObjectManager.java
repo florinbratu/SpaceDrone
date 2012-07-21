@@ -145,10 +145,10 @@ public class ObjectManager extends SimpleOnGestureListener{
 			}
 		}
 		
-		// collision detektion
+		// preload some data for collision detection mechanism
 		if(spider.speed!=0 && !(spider.getVelocityX() == 0 && spider.getVelocityY() == 0)) {
 			spider.setMovementVector(timeDeltaSeconds);
-			collisionsCheck();
+			fence.collisionPrefetch(spider.getMovementVector());
 		}
 		
 		// update positions
@@ -157,6 +157,11 @@ public class ObjectManager extends SimpleOnGestureListener{
 				object.updatePosition(timeDeltaSeconds);
 				object.boundsCheck(game.getScreenWidth(), game.getScreenHeight());
 			}
+		}
+		
+		// do the collision check
+		if(spider.speed!=0 && !(spider.getVelocityX() == 0 && spider.getVelocityY() == 0)) {
+			collisionsCheck();
 		}
 		
 	}
