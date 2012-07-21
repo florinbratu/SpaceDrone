@@ -24,4 +24,7 @@ public interface Constants {
 	public static final int STATS_POSITION_X = 0;
 	
 	public static final int STATS_POSITION_Y = 16;
+	
+	// TODO customization
+	public static final int MAX_LIFES = 3;
 }
