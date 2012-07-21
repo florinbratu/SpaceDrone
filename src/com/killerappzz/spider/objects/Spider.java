@@ -3,11 +3,13 @@
  */
 package com.killerappzz.spider.objects;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.engine.ICollidable;
 import com.killerappzz.spider.geometry.Edge2D;
 
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
+import android.util.Log;
 
 /**
  * The main object of the game
@@ -42,15 +44,6 @@ public class Spider extends Sprite implements ICollidable{
 		return this.screenHeight - (worldY + height/2);
 	}
 	
-	@Override
-	public void updatePosition(float timeDeltaSeconds) {
-		// backup old pos
-		this.movementVector.setStartPoint(toScreenX(this.x), toScreenY(this.y));
-		super.updatePosition(timeDeltaSeconds);
-		// set new pos - after update!
-		this.movementVector.setEndPoint(toScreenX(this.x), toScreenY(this.y));
-	}
-	
 	public Edge2D getMovementVector() {
 		return movementVector;
 	}
@@ -74,6 +67,15 @@ public class Spider extends Sprite implements ICollidable{
 		// TODO add sexy collision animation(explosion?) with fence
 		// stop movement
 		this.setVelocity(0, 0);
+	}
+
+	/* lock the movement vektor according to the current position
+		this is to ensure consistency with the background scrolling shit*/
+	public void setMovementVector(float timeDeltaSeconds) {
+		this.movementVector.setStartPoint(toScreenX(this.x), toScreenY(this.y));
+		this.movementVector.setEndPoint(toScreenX(this.x + (this.getVelocityX() * this.speed * timeDeltaSeconds)), 
+				toScreenY(this.y + (this.getVelocityY() * this.speed * timeDeltaSeconds))); 
+		Log.d(Constants.DEBUG_TAG, "Movement vektor:" + this.movementVector);
 	}
 
 }

@@ -145,6 +145,12 @@ public class ObjectManager extends SimpleOnGestureListener{
 			}
 		}
 		
+		// collision detektion
+		if(spider.speed!=0 && !(spider.getVelocityX() == 0 && spider.getVelocityY() == 0)) {
+			spider.setMovementVector(timeDeltaSeconds);
+			collisionsCheck();
+		}
+		
 		// update positions
 		for(DrawableObject object : objects) {
 			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0)) {
@@ -153,11 +159,6 @@ public class ObjectManager extends SimpleOnGestureListener{
 			}
 		}
 		
-		if(spider.speed!=0 && !(spider.getVelocityX() == 0 && spider.getVelocityY() == 0))
-		{
-			// check for collisions
-			collisionsCheck();
-		}
 	}
 	
 	// test for collision Drone -> Fence

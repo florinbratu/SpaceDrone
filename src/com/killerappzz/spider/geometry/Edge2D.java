@@ -104,5 +104,10 @@ public abstract class Edge2D {
 		double y2 = e2.getY() - e1.getY();
 		return x1 * y2 - x2 * y1;
 	}
+	
+	@Override
+	public String toString() {
+		return "(" + this.getStartPoint() + " -> " + this.getEndPoint() + ")";
+	}
 
 }
