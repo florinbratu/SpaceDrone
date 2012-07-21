@@ -3,8 +3,10 @@ package com.killerappzz.spider.objects;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -37,6 +39,8 @@ public class ObjectManager extends SimpleOnGestureListener{
 	// the scene movement state
 	public SceneState state;
 	private final Paint statsPaint;
+    // vibrator
+    private Vibrator vibrator;
 	
 	public ObjectManager(Game theGame) {
 		this.objects = new LinkedList<DrawableObject>();
@@ -45,6 +49,11 @@ public class ObjectManager extends SimpleOnGestureListener{
 		this.state = SceneState.OBJECT_MOVE;
 		this.game = theGame;
 		statsPaint = Customization.getStatsPaint();
+	}
+	
+	public void init(Context context) {
+		// load Vibrator
+		vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 	}
 	
 	public void addObject(DrawableObject object) {
@@ -175,6 +184,8 @@ public class ObjectManager extends SimpleOnGestureListener{
 			// call collision handlers
 			this.spider.collisionHandler();
 			this.fence.collisionHandler();
+			// vibrate!
+			vibrator.vibrate(Customization.VIBRATION_PERIOD);
 		}
 	}
 

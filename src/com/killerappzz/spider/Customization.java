@@ -45,4 +45,7 @@ public final class Customization {
 		textPaint.setTextSize(STATS_TEXT_SIZE);
 		return textPaint;
 	}
+	
+	// vibration period for haptic feedback
+	public static final long VIBRATION_PERIOD = 300;
 }

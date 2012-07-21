@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 
@@ -49,6 +50,7 @@ public class Game {
 	}
 	
 	public void load(Context context) {
+		manager.init(context);
 		// Sets our preferred image format to 16-bit, 565 format.
 		bitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 		// Make the background.
