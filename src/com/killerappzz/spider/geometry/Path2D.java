@@ -136,6 +136,7 @@ public abstract class Path2D implements Shape, Cloneable {
     abstract int pointCrossings(double px, double py);
     abstract int rectCrossings(double rxmin, double rymin,
                                double rxmax, double rymax);
+    public abstract void offset(double dx, double dy);
 
     /**
      * The {@code Float} class defines a geometric path with
@@ -969,6 +970,18 @@ public abstract class Path2D implements Shape, Cloneable {
             }
         }
 
+        /*
+         * OBS we did it only for simple polygons, not yet supporting quads
+         */
+		@Override
+		public void offset(double dx, double dy) {
+			int coordIndex = 0;
+			while(coordIndex<numCoords) {
+				floatCoords[coordIndex++] += (float)dx;
+				floatCoords[coordIndex++] += (float)dy;
+			}
+		}
+
     }
 
     /**
@@ -1693,6 +1706,18 @@ public abstract class Path2D implements Shape, Cloneable {
                 return type;
             }
         }
+
+        /*
+         * OBS we did it only for simple polygons, not yet supporting quads
+         */
+		@Override
+		public void offset(double dx, double dy) {
+			int coordIndex = 0;
+			while(coordIndex<numCoords) {
+				doubleCoords[coordIndex++] += dx;
+				doubleCoords[coordIndex++] += dy;
+			}
+		}
     }
 
     /**
@@ -2588,4 +2613,5 @@ public abstract class Path2D implements Shape, Cloneable {
             pointIdx += curvecoords[type];
         }
     }
+	
 }

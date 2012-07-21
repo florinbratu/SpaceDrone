@@ -109,6 +109,8 @@ public class GeometricPath extends Path {
 		for(Point2D vertex: this.vertices) {
 			vertex.offset(dx,dy);
 		}
+		// offset the geometry
+		this.geometry.offset(dx,dy);
 	}
 	
 	/**
@@ -194,6 +196,16 @@ public class GeometricPath extends Path {
 
 	public void update(GeometricPath trailingPath) {
 		set(trailingPath);
+	}
+	
+	public String verticesToString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		for(int i=0;i<vertexCount;i++) {
+			sb.append( i + ":" + vertices.get(i) + ";");
+		}
+		sb.append("}");
+		return sb.toString();
 	}
 	
 }

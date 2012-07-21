@@ -75,7 +75,6 @@ public class Spider extends Sprite implements ICollidable{
 		this.movementVector.setStartPoint(toScreenX(this.x), toScreenY(this.y));
 		this.movementVector.setEndPoint(toScreenX(this.x + (this.getVelocityX() * this.speed * timeDeltaSeconds)), 
 				toScreenY(this.y + (this.getVelocityY() * this.speed * timeDeltaSeconds))); 
-		Log.d(Constants.DEBUG_TAG, "Movement vektor:" + this.movementVector);
 	}
 
 }
