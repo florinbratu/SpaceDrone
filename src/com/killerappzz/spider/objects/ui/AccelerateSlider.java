@@ -18,6 +18,7 @@ public class AccelerateSlider extends DrawableObject{
 	private final DrawableUI sliderBase;
 	private final DrawableUI sliderButton;
 	private final DrawableUI sliderButtonPressed;
+	private final float originalSliderButtonY;
 	// boolean marking if slider button pressed or not
 	private boolean pressed;
 
@@ -42,7 +43,7 @@ public class AccelerateSlider extends DrawableObject{
 		this.sliderButton.x = this.x + Constants.MOVEMENT_SLIDER_BUTTON_X;
 		this.sliderButton.y = this.y + Constants.MOVEMENT_SLIDER_BUTTON_Y;
 		this.sliderButtonPressed.x = this.x + Constants.MOVEMENT_SLIDER_BUTTON_X;
-		this.sliderButtonPressed.y = this.y + Constants.MOVEMENT_SLIDER_BUTTON_Y;
+		this.sliderButtonPressed.y = this.originalSliderButtonY = this.y + Constants.MOVEMENT_SLIDER_BUTTON_Y;
 		// inital state == depressed
 		this.pressed = false;
 	}
@@ -75,8 +76,8 @@ public class AccelerateSlider extends DrawableObject{
 	
 	public void setMovementSliderOffset(float offset) {
 		float yOffset = offset * (this.sliderBase.height / 2.0f);
-		this.sliderButton.y += yOffset;
-		this.sliderButtonPressed.y += yOffset;
+		this.sliderButton.y = this.originalSliderButtonY + yOffset;
+		this.sliderButtonPressed.y = this.originalSliderButtonY +yOffset;
     }
 
 	public float getSliderRegionX() {
