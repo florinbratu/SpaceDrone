@@ -14,6 +14,7 @@ import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Fence;
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.Spider;
+import com.killerappzz.spider.objects.ui.AccelerateSlider;
 import com.killerappzz.spider.rendering.GameRenderer;
 
 /**
@@ -61,6 +62,13 @@ public class Game {
 		Background background = new Background(context, bitmapOptions, 
 				R.drawable.background, screenWidth, screenHeight, manager);
         manager.addBackgroundObject(background);
+        
+        // make the hud
+        AccelerateSlider as = new AccelerateSlider(context, bitmapOptions, 
+        		R.drawable.ui_acceleration_slider_base, 
+        		R.drawable.ui_acceleration_slider_button, 
+        		R.drawable.ui_acceleration_slider_button_pressed);
+        manager.addSceneObject(as);
         
         // Make the Fence
         Fence fence = new Fence(context, bitmapOptions, screenWidth, screenHeight);

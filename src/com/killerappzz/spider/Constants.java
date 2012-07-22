@@ -20,10 +20,17 @@ public interface Constants {
 	 * sa incep sa scrollez ecranul
 	 * */
 	public static final int EXPANSION_PERCENTILE = 15;
-	
+
+	// unde afisez stats uri like fps
 	public static final int STATS_POSITION_X = 0;
-	
 	public static final int STATS_POSITION_Y = 16;
+	
+	// unde afisez acceleration slider
+	public static final float MOVEMENT_SLIDER_BASE_X = 20.0f;
+	public static final float MOVEMENT_SLIDER_BASE_Y = 32.0f;
+    public static final float MOVEMENT_SLIDER_BUTTON_X = MOVEMENT_SLIDER_BASE_X + 32.0f;
+    public static final float MOVEMENT_SLIDER_BUTTON_Y =  MOVEMENT_SLIDER_BASE_Y - 16.0f;
+    public static final float MOVEMENT_SLIDER_WIDTH = 128.0f;
 	
 	// TODO customization
 	public static final int MAX_LIFES = 3;
