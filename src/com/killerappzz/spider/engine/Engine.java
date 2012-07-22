@@ -23,6 +23,8 @@ public class Engine implements Runnable {
 		final float timeDeltaSeconds = getTimeDelta();
 		// calculate new positions
 		this.game.getObjectManager().updatePositions(timeDeltaSeconds);
+		// process user input
+		this.game.processUI(timeDeltaSeconds);
 	}
 
 	private float getTimeDelta() {

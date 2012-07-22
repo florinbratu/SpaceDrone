@@ -30,7 +30,6 @@ public interface Constants {
 	public static final float MOVEMENT_SLIDER_BASE_Y = 16.0f;
     public static final float MOVEMENT_SLIDER_BUTTON_Y = MOVEMENT_SLIDER_BASE_Y + 32.0f;
     public static final float MOVEMENT_SLIDER_BUTTON_X =  MOVEMENT_SLIDER_BASE_X - 16.0f;
-    public static final float MOVEMENT_SLIDER_WIDTH = 128.0f;
 	
 	// TODO customization
 	public static final int MAX_LIFES = 3;

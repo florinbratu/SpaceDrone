@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 
@@ -16,6 +15,8 @@ import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.Spider;
 import com.killerappzz.spider.objects.ui.AccelerateSlider;
 import com.killerappzz.spider.rendering.GameRenderer;
+import com.killerappzz.spider.ui.UserInput;
+import com.killerappzz.spider.ui.touch.TouchFilter;
 
 /**
  * This will encapsulate the logic of the game
@@ -31,7 +32,10 @@ public class Game {
     private final ObjectManager manager;
     private final GameRenderer renderer;
     private final BitmapFactory.Options bitmapOptions;
+    // this is for touch gestures
     private GestureDetector touchHandler;
+    // the user input handler
+    private UserInput userInput;
     private final GameData data;
 	
 	public Game(Activity parentActivity) {
@@ -71,6 +75,9 @@ public class Game {
         // place in lower-left corner
         as.x = as.y = 0;
         manager.addSceneObject(as);
+        
+        // make the user input
+        this.userInput = new UserInput(context, screenHeight, as);
         
         // Make the Fence
         Fence fence = new Fence(context, bitmapOptions, screenWidth, screenHeight);
@@ -118,8 +125,16 @@ public class Game {
 		return this.touchHandler;
 	}
 	
+	public TouchFilter getTouchFilter() {
+		return this.userInput.getTouchFilter();
+	}
+	
 	public ObjectManager getObjectManager() {
 		return this.manager;
+	}
+
+	public void processUI(float timeDeltaSeconds) {
+		this.userInput.process(timeDeltaSeconds);
 	}
 	
 }

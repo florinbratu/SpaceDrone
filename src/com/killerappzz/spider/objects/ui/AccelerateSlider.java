@@ -72,5 +72,36 @@ public class AccelerateSlider extends DrawableObject{
 	public void updateScreen(int width, int height) {
 		// TODO Auto-generated method stub
 	}
+	
+	public void setMovementSliderOffset(float offset) {
+		float yOffset = offset * (this.sliderBase.height / 2.0f);
+		this.sliderButton.y += yOffset;
+		this.sliderButtonPressed.y += yOffset;
+    }
+
+	public float getSliderRegionX() {
+		return this.x;
+	}
+	
+	public float getSliderRegionY() {
+		return this.y;
+	}
+
+	public float getSliderRegionHeight() {
+		return Constants.MOVEMENT_SLIDER_BASE_Y + sliderBase.height;
+	}
+
+	public float getSliderRegionWidth() {
+		return Constants.MOVEMENT_SLIDER_BASE_X + sliderBase.width;
+	}
+
+	public float getSliderBarWidth() {
+		// because it's rotated
+		return sliderBase.height;
+	}
+
+	public float getSliderBarY() {
+		return sliderBase.y;
+	}
 
 }

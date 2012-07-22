@@ -39,6 +39,9 @@ public class MainActivity extends Activity {
     
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+    	// UI processing
+    	this.game.getTouchFilter().updateTouch(event);
+    	// gesture detection on ObjectManager level. probably will remove this in the future
     	return game.getTouchHandler().onTouchEvent(event);
     }
 
