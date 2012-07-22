@@ -8,14 +8,14 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.engine.Game;
-import com.killerappzz.spider.geometry.Edge2D;
+import com.killerappzz.spider.engine.GameData;
 
 /**
  * Handles objects which are displayed on the screen
@@ -41,8 +41,11 @@ public class ObjectManager extends SimpleOnGestureListener{
 	private final Paint statsPaint;
     // vibrator
     private Vibrator vibrator;
+    // the game Data
+    private final GameData data;
 	
-	public ObjectManager(Game theGame) {
+	public ObjectManager(Game theGame, GameData theData) {
+		this.data = theData;
 		this.objects = new LinkedList<DrawableObject>();
 		this.backgroundObjects = new LinkedList<DrawableObject>();
 		this.sceneObjects = new LinkedList<DrawableObject>();
@@ -186,6 +189,8 @@ public class ObjectManager extends SimpleOnGestureListener{
 			this.fence.collisionHandler();
 			// vibrate!
 			vibrator.vibrate(Customization.VIBRATION_PERIOD);
+			// lose one life
+			this.data.lostLife();
 		}
 	}
 

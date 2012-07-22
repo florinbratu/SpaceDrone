@@ -31,6 +31,7 @@ public class Game {
     private final GameRenderer renderer;
     private final BitmapFactory.Options bitmapOptions;
     private GestureDetector touchHandler;
+    private final GameData data;
 	
 	public Game(Activity parentActivity) {
 		// We need to know the width and height of the display pretty soon,
@@ -40,7 +41,8 @@ public class Game {
         screenWidth = dm.widthPixels;
         screenHeight = dm.heightPixels;
         
-        manager = new ObjectManager(this);
+        data = new GameData();
+        manager = new ObjectManager(this, data);
 		renderer = new GameRenderer(manager);
 		bitmapOptions = new BitmapFactory.Options();
 		touchHandler = new GestureDetector(parentActivity, manager);
