@@ -61,6 +61,8 @@ public class UserInput {
 			this.as.setPressed(true);
 		} else {
 			this.as.setPressed(false);
+			// no offset
+			this.as.setMovementSliderOffset(0);
 		}
 	}
 
