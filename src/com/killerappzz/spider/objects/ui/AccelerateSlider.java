@@ -36,13 +36,13 @@ public class AccelerateSlider extends DrawableObject{
 		this.sliderBase = new DrawableUI(context, bitmapOptions, sliderBaseResID);
 		this.sliderButton = new DrawableUI(context, bitmapOptions, sliderButtonResID);
 		this.sliderButtonPressed = new DrawableUI(context, bitmapOptions, sliderButtonPressedResID);
-		// initial positions
-		this.sliderBase.x = Constants.MOVEMENT_SLIDER_BASE_X;
-		this.sliderBase.y = Constants.MOVEMENT_SLIDER_BASE_Y;
-		this.sliderButton.x = Constants.MOVEMENT_SLIDER_BUTTON_X;
-		this.sliderButton.y = Constants.MOVEMENT_SLIDER_BUTTON_Y;
-		this.sliderButtonPressed.x = Constants.MOVEMENT_SLIDER_BUTTON_X;
-		this.sliderButtonPressed.y = Constants.MOVEMENT_SLIDER_BUTTON_Y;
+		// initial positions. they are relative to the slider position
+		this.sliderBase.x = this.x + Constants.MOVEMENT_SLIDER_BASE_X;
+		this.sliderBase.y = this.y + Constants.MOVEMENT_SLIDER_BASE_Y;
+		this.sliderButton.x = this.x + Constants.MOVEMENT_SLIDER_BUTTON_X;
+		this.sliderButton.y = this.y + Constants.MOVEMENT_SLIDER_BUTTON_Y;
+		this.sliderButtonPressed.x = this.x + Constants.MOVEMENT_SLIDER_BUTTON_X;
+		this.sliderButtonPressed.y = this.y + Constants.MOVEMENT_SLIDER_BUTTON_Y;
 		// inital state == depressed
 		this.pressed = false;
 	}

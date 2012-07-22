@@ -68,6 +68,8 @@ public class Game {
         		R.drawable.ui_acceleration_slider_base, 
         		R.drawable.ui_acceleration_slider_button, 
         		R.drawable.ui_acceleration_slider_button_pressed);
+        // place in lower-left corner
+        as.x = as.y = 0;
         manager.addSceneObject(as);
         
         // Make the Fence
