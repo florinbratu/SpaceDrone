@@ -87,6 +87,8 @@ public class Spider extends Sprite implements ICollidable{
 	 */
 	public void updateSpeed(float offset) {
 		this.speed = (maxSpeed - defaultSpeed) * offset + defaultSpeed;
+		// we also need to update background objects speeds!!
+		om.setBackgroundSpeeds(this);
 	}
 
 }
