@@ -77,7 +77,7 @@ public class Game {
         manager.addSceneObject(as);
         
         // make the user input
-        this.userInput = new UserInput(context, screenHeight, as);
+        this.userInput = new UserInput(context, screenHeight, as, manager);
         
         // Make the Fence
         Fence fence = new Fence(context, bitmapOptions, screenWidth, screenHeight);
@@ -91,7 +91,6 @@ public class Game {
         int centerY = (this.screenHeight - (int)spider.height) / 2;
         spider.x = centerX;
         spider.y = centerY;
-        spider.speed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         manager.addSpider(spider);
         
         fence.inlineCreate(spider);

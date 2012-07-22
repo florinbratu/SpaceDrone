@@ -14,7 +14,8 @@ public interface Constants {
 	/* vitezele le masor in felul urmator: cate secunde ii ia
 	 * sa traverseze tot ecranul!
 	 */
-	public static final int DEFAULT_SPIDER_SPEED_FACTOR = 4;
+	public static final int DEFAULT_SPIDER_SPEED_FACTOR = 10;
+	public static final int MAX_SPIDER_SPEED_FACTOR = 4;
 	
 	/* procentul de ecran pe care il mai afisez inainte 
 	 * sa incep sa scrollez ecranul

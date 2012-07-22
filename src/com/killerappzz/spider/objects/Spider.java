@@ -6,6 +6,7 @@ package com.killerappzz.spider.objects;
 import android.content.Context;
 import android.graphics.BitmapFactory.Options;
 
+import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.engine.ICollidable;
 import com.killerappzz.spider.geometry.Edge2D;
 
@@ -23,6 +24,8 @@ public class Spider extends Sprite implements ICollidable{
     // screen dimensions
     protected int screenWidth;
     protected int screenHeight;
+    private float maxSpeed;
+    private float defaultSpeed;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId, ObjectManager manager,
 			int scrWidth, int scrHeight) {
@@ -31,6 +34,8 @@ public class Spider extends Sprite implements ICollidable{
 		this.movementVector = new Edge2D.Float();
 		this.screenWidth = scrWidth;
 		this.screenHeight = scrHeight;
+		this.speed = this.defaultSpeed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
+        this.maxSpeed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.MAX_SPIDER_SPEED_FACTOR;
 	}
 	
 	// coordinate conversion methods
@@ -73,6 +78,15 @@ public class Spider extends Sprite implements ICollidable{
 		this.movementVector.setStartPoint(toScreenX(this.x), toScreenY(this.y));
 		this.movementVector.setEndPoint(toScreenX(this.x + (this.getVelocityX() * this.speed * timeDeltaSeconds)), 
 				toScreenY(this.y + (this.getVelocityY() * this.speed * timeDeltaSeconds))); 
+	}
+	
+	/*
+	 * update speed according to input from HUD.
+	 * For the moment: update according to a linear function [-1,1] -> [-maxSpeed, maxSpeed]
+	 * and speed(0)=defaultSpeed
+	 */
+	public void updateSpeed(float offset) {
+		this.speed = (maxSpeed - defaultSpeed) * offset + defaultSpeed;
 	}
 
 }

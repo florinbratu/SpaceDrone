@@ -242,5 +242,14 @@ public class ObjectManager extends SimpleOnGestureListener{
 		for(DrawableObject backgroundObject : this.backgroundObjects)
 			backgroundObject.speed = spider.speed;
 	}
+
+	/*
+	 * Handles messages coming from the user via User Input, like:
+	 * 	- acceleration speed changes
+	 */
+	public void processUI(float accelerationOffset) {
+		// update object speed according to the newly requested acceleration
+		spider.updateSpeed(accelerationOffset);
+	}
 	
 }

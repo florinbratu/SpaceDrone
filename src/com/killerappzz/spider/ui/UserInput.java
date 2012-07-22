@@ -3,6 +3,7 @@ package com.killerappzz.spider.ui;
 import android.content.Context;
 import android.os.Build;
 
+import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.ui.AccelerateSlider;
 import com.killerappzz.spider.ui.touch.InputTouchScreen;
 import com.killerappzz.spider.ui.touch.MultiTouchFilter;
@@ -27,9 +28,11 @@ public class UserInput {
     // the slider UI object
     // TODO this needs to be replaced with the future more-generic HUD
     private final AccelerateSlider as;
+    private final ObjectManager om;
 	
-	public UserInput(Context context, int screenHeight, AccelerateSlider as) {
+	public UserInput(Context context, int screenHeight, AccelerateSlider as, ObjectManager om) {
 		this.as = as;
+		this.om = om;
 		// the touch events receiver
 		touchScreen = new InputTouchScreen();
 		// the touch filter
@@ -50,20 +53,23 @@ public class UserInput {
 				as.getSliderRegionWidth(),
 				as.getSliderRegionHeight());
 		
+		float offsetFrac;
 		if (sliderTouch != null) {
 			final float halfWidth = as.getSliderBarWidth() / 2.0f;
 			final float center = as.getSliderBarY() + halfWidth;
 			final float offset = sliderTouch.getY() - center;
 			float magnitudeRamp = Math.abs(offset) > halfWidth ? 1.0f : (Math.abs(offset) / halfWidth);
-			// offset the button
-			this.as.setMovementSliderOffset(magnitudeRamp * Math.signum(offset));
+			offsetFrac = magnitudeRamp * Math.signum(offset);
 			// set pressed state
 			this.as.setPressed(true);
+			// update speed
+			this.om.processUI(offsetFrac);
 		} else {
+			offsetFrac = 0;
 			this.as.setPressed(false);
-			// no offset
-			this.as.setMovementSliderOffset(0);
 		}
+		// offset the button
+		this.as.setMovementSliderOffset(offsetFrac);
 	}
 
 	public TouchFilter getTouchFilter() {
