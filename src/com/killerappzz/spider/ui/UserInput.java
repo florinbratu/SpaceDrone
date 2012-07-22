@@ -57,6 +57,10 @@ public class UserInput {
 			float magnitudeRamp = Math.abs(offset) > halfWidth ? 1.0f : (Math.abs(offset) / halfWidth);
 			// offset the button
 			this.as.setMovementSliderOffset(magnitudeRamp * Math.signum(offset));
+			// set pressed state
+			this.as.setPressed(true);
+		} else {
+			this.as.setPressed(false);
 		}
 	}
 
