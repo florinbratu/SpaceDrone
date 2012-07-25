@@ -18,7 +18,6 @@ public class Engine implements Runnable {
 		this.mLastTime = 0;
 	}
 
-	@Override
 	public void run() {
 		final float timeDeltaSeconds = getTimeDelta();
 		// calculate new positions

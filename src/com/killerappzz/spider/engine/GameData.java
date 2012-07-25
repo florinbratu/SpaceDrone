@@ -163,12 +163,10 @@ public class GameData implements Parcelable{
 		this.endReason = omolog.endReason;
 	}
 
-	@Override
 	public int describeContents() {
 		return 0;
 	}
 
-	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeLong(score);
 		dest.writeFloat(time.totalTime);

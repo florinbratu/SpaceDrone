@@ -29,7 +29,6 @@ public class GameRenderer implements Renderer {
         this.om.updateScreen(width,height);
     }
 
-	@Override
 	public ProfileRecorder getProfiler() {
 		return this.profiler;
 	}

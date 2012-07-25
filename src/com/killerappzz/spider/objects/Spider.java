@@ -101,7 +101,6 @@ public class Spider extends Sprite implements ICollidable{
 		this.screenWidth = width;
 	}
 
-	@Override
 	public void collisionHandler() {
 		// TODO add sexy collision animation(explosion?) with fence
 		// stop movement

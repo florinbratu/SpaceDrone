@@ -115,7 +115,6 @@ public class Fence extends DrawableObject implements ICollidable{
 		// TODO for sure we will do stuff here, when we will do culling
 	}
 
-	@Override
 	public void collisionHandler() {
 		// TODO add sexy collision animation
 	}
