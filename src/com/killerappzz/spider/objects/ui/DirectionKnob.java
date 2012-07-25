@@ -20,6 +20,11 @@ public class DirectionKnob extends DrawableObject {
 	private int screenWidth;
 	// boolean marking if slider button pressed or not
 	private boolean pressed;
+	// some useful coordinates, precomputed
+	private float centerX;
+	private float centerY;
+	private float knobRadius;
+	private float touchSpotRadius;
 
 	public boolean isPressed() {
 		return pressed;
@@ -51,6 +56,12 @@ public class DirectionKnob extends DrawableObject {
 		this.knob.y = this.y + Constants.DIRECTION_KNOB_Y;
 		this.touchSpot.x = this.knob.x + (this.knob.width - this.touchSpot.width) / 2;
 		this.touchSpot.y = this.knob.y + (this.knob.height - this.touchSpot.height) / 2;
+		// coordinates of the knob center
+		this.centerX = this.knob.x + this.knob.width / 2;
+		this.centerY = this.knob.y + this.knob.height / 2;
+		// radiuses for the two circles
+		this.knobRadius = this.knob.width / 2;
+		this.touchSpotRadius = this.touchSpot.width / 2;
 	}
 		
 	@Override
@@ -97,11 +108,6 @@ public class DirectionKnob extends DrawableObject {
 	 * for the touch spot so that it does not go out of bounds
 	 */
 	public boolean touchWithinRegion(float x, float y) {
-		// coordinates of the knob center
-		float centerX = this.knob.x + this.knob.width / 2;
-		float centerY = this.knob.y + this.knob.height / 2;
-		float knobRadius = this.knob.width / 2;
-		float touchSpotRadius = this.touchSpot.width / 2;
 		float dist = distance(x,y,centerX,centerY);
 		return knobRadius - touchSpotRadius > dist;
 	}
