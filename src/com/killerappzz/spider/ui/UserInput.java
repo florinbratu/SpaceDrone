@@ -67,10 +67,10 @@ public class UserInput {
 			if(knob.touchWithinRegion( touchX, touchY)){
 				knob.setTouchSpot(touchX, touchY);
 			} else {
-				// TODO
+				knob.setBorderTouchSpot(touchX, touchY);
 			}
 		} else {
-			// TODO
+			// TODO reset the touch spot
 		}
 	}
 

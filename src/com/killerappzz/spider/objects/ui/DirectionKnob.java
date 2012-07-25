@@ -109,7 +109,7 @@ public class DirectionKnob extends DrawableObject {
 	 */
 	public boolean touchWithinRegion(float x, float y) {
 		float dist = distance(x,y,centerX,centerY);
-		return knobRadius - touchSpotRadius > dist;
+		return knobRadius - touchSpotRadius >= dist;
 	}
 
 	private float distance(float x, float y, float centerX, float centerY) {
@@ -122,6 +122,27 @@ public class DirectionKnob extends DrawableObject {
 	public void setTouchSpot(float x, float y) {
 		this.touchSpot.x = x - this.touchSpot.width / 2;
 		this.touchSpot.y = y - this.touchSpot.height / 2;
+	}
+
+	/*
+	 * the touch coordinates are out of bounds.
+	 * We will compute the most extreme point so that the direction is the same
+	 * as the touch point but the touchSpot does not fall out of bounds.
+	 * 
+	 *  This is calculated by finding the intersection between the segment
+	 *  (Center, Point) where Center is the center and POint is the touch point
+	 *  with the Circle centered in Center and with radius knobRadius - touchSpotRadius
+	 *  
+	 *  For formulae, see the scribbled paper ;)
+	 */
+	public void setBorderTouchSpot(float px, float py) {
+		float radius = knobRadius - touchSpotRadius;
+		float dist = distance(px,py,centerX,centerY);
+		float t = radius / dist;
+		this.touchSpot.x = px * t + centerX * (1 - t);
+		this.touchSpot.y = py * t + centerY * (1 - t);
+		this.touchSpot.x -= this.touchSpot.width / 2;
+		this.touchSpot.y -= this.touchSpot.height / 2;
 	}
 
 }
