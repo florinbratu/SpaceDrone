@@ -26,6 +26,8 @@ public class Spider extends Sprite implements ICollidable{
     protected int screenHeight;
     private float maxSpeed;
     private float defaultSpeed;
+    // the pusher
+    private RotationObject pusher;
 
 	public Spider(Context context, Options bitmapOptions, int resourceId, ObjectManager manager,
 			int scrWidth, int scrHeight) {
@@ -36,6 +38,14 @@ public class Spider extends Sprite implements ICollidable{
 		this.screenHeight = scrHeight;
 		this.speed = this.defaultSpeed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
         this.maxSpeed = 0.5f * (this.screenWidth + this.screenHeight) / Constants.MAX_SPIDER_SPEED_FACTOR;
+	}
+	
+	public void setPusher(RotationObject pusher) {
+		this.pusher = pusher;
+		// the pusher is solidaire with the movement
+		pusher.x = this.x ;
+        pusher.y = this.y ;
+        pusher.speed = this.speed;
 	}
 	
 	// coordinate conversion methods
@@ -54,15 +64,41 @@ public class Spider extends Sprite implements ICollidable{
 	@Override
 	public void setVelocity(float velocityX, float velocityY) {
 		super.setVelocity(velocityX, velocityY);
-		if( !(velocityX == 0.0f && velocityY == 0.0f) 
-				&& this.om.needStateSwitch()) {
-			this.om.doneScreenScrollBackground();
+		if( !(velocityX == 0.0f && velocityY == 0.0f)) {
+			if(this.om.needStateSwitch())
+				this.om.doneScreenScrollBackground();
+			this.pusher.setRotationAngle(movementAngleDegrees());
+			// pusher is solidaire with our movement
+			this.pusher.setVelocity(velocityX, velocityY);
 		}
+	}
+
+	/*
+	 * calculate the angle of the spider movement, in degrees
+	 */
+	private double movementAngleDegrees() {
+		// the value in radians
+		double angleRadians = 0;
+		double dx = this.getVelocityX();
+		double dy = this.getVelocityY();
+		if(dy==0)
+			if(dx<0)
+				angleRadians = Math.PI;
+			else
+				return 0;
+		else {
+			// we use the handy atan2
+			angleRadians = Math.atan2(dx, dy);
+		}
+		
+		// convert radians to degrees
+		return angleRadians * 180 / Math.PI;
 	}
 
 	@Override
 	public void updateScreen(int width, int height) {
-		// TODO maybe useful in za future
+		this.screenHeight = height;
+		this.screenWidth = width;
 	}
 
 	@Override
@@ -89,6 +125,8 @@ public class Spider extends Sprite implements ICollidable{
 		this.speed = (maxSpeed - defaultSpeed) * offset + defaultSpeed;
 		// we also need to update background objects speeds!!
 		om.setBackgroundSpeeds(this);
+		// the pusher follows closely
+		pusher.speed = this.speed;
 	}
 
 }

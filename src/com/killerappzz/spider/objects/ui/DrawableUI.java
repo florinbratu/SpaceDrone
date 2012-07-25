@@ -20,7 +20,7 @@ public class DrawableUI extends Sprite{
 
 	@Override
 	public void updateScreen(int width, int height) {
-		// TODO Auto-generated method stub
+		// don't need it. yet
 	}
 	
 	 @Override

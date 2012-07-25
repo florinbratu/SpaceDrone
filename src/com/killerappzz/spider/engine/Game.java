@@ -6,14 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
+import android.view.animation.RotateAnimation;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Fence;
 import com.killerappzz.spider.objects.ObjectManager;
+import com.killerappzz.spider.objects.RotationObject;
 import com.killerappzz.spider.objects.Spider;
 import com.killerappzz.spider.objects.ui.AccelerateSlider;
+import com.killerappzz.spider.objects.ui.DirectionKnob;
 import com.killerappzz.spider.rendering.GameRenderer;
 import com.killerappzz.spider.ui.UserInput;
 import com.killerappzz.spider.ui.touch.TouchFilter;
@@ -73,8 +76,15 @@ public class Game {
         		R.drawable.ui_acceleration_slider_button, 
         		R.drawable.ui_acceleration_slider_button_pressed);
         // place in lower-left corner
-        as.x = as.y = 0;
+        as.setPosition(0, 0);
         manager.addSceneObject(as);
+        // the directional knob
+        DirectionKnob knob = new DirectionKnob(context, bitmapOptions, 
+        		R.drawable.ui_direction_knob, 
+        		R.drawable.ui_direction_touch_spot, screenWidth);
+        // place in lower-right corner
+        knob.setPosition(this.screenWidth, 0);
+        manager.addSceneObject(knob);
         
         // make the user input
         this.userInput = new UserInput(context, screenHeight, as, manager);
@@ -96,6 +106,13 @@ public class Game {
         fence.inlineCreate(spider);
         // set speeds of Background objects
         manager.setBackgroundSpeeds(spider);
+        
+        // make the shit following the spider
+        RotationObject pusher = new RotationObject(context, 
+        		bitmapOptions, R.drawable.pusher, spider, screenHeight);
+        spider.setPusher(pusher);
+        pusher.setRotationAngle(0);
+        manager.addSceneObject(pusher);
         
         // Now's a good time to run the GC.  Since we won't do any explicit
         // allocation during the test, the GC should stay dormant and not
