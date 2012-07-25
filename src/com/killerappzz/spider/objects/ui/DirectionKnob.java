@@ -131,9 +131,20 @@ public class DirectionKnob extends DrawableObject {
 	 * 
 	 *  This is calculated by finding the intersection between the segment
 	 *  (Center, Point) where Center is the center and POint is the touch point
-	 *  with the Circle centered in Center and with radius knobRadius - touchSpotRadius
+	 *  with the Circle centered in Center and with radius R = knobRadius - touchSpotRadius
 	 *  
-	 *  For formulae, see the scribbled paper ;)
+	 *  Here's the underlying math which explains the formulae below.
+	 *  We use the parametric equations for the:
+	 *  1) Segment (Center, Point) :
+	 *  xT = xP * t + xC * (1 - t)
+	 *  yT = yP * t + yC * (1 - t)
+	 *  2) Circle (Center, R) :
+	 *  (xT - xC) ^ 2 + (yT - yC) ^ 2 = R ^ 2
+	 *  
+	 *  Substituting 1) in 2) and simplifying the equation yields the value for t:
+	 *  	t = R / dist
+	 *  where dist is the distance between Center and Point.
+	 *  Then, by replacing the value of t in 1), we get the coordinates we want! 
 	 */
 	public void setBorderTouchSpot(float px, float py) {
 		float radius = knobRadius - touchSpotRadius;
