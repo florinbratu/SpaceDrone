@@ -76,4 +76,46 @@ public class DirectionKnob extends DrawableObject {
 		this.screenWidth = width;
 	}
 
+	public float getTouchRegionX() {
+		return this.knob.x;
+	}
+
+	public float getTouchRegionY() {
+		return this.knob.y;
+	}
+
+	public float getTouchRegionWidth() {
+		return this.knob.width;
+	}
+
+	public float getTouchRegionHeight() {
+		return this.knob.height;
+	}
+
+	/*
+	 * tests whether the given point can be used as the center
+	 * for the touch spot so that it does not go out of bounds
+	 */
+	public boolean touchWithinRegion(float x, float y) {
+		// coordinates of the knob center
+		float centerX = this.knob.x + this.knob.width / 2;
+		float centerY = this.knob.y + this.knob.height / 2;
+		float knobRadius = this.knob.width / 2;
+		float touchSpotRadius = this.touchSpot.width / 2;
+		float dist = distance(x,y,centerX,centerY);
+		return knobRadius - touchSpotRadius > dist;
+	}
+
+	private float distance(float x, float y, float centerX, float centerY) {
+		// quick n dirty distance function
+		float dx = x - centerX;
+		float dy = y - centerY;
+		return (float)Math.sqrt( dx * dx + dy * dy );
+	}
+
+	public void setTouchSpot(float x, float y) {
+		this.touchSpot.x = x - this.touchSpot.width / 2;
+		this.touchSpot.y = y - this.touchSpot.height / 2;
+	}
+
 }

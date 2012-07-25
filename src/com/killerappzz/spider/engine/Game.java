@@ -87,7 +87,7 @@ public class Game {
         manager.addSceneObject(knob);
         
         // make the user input
-        this.userInput = new UserInput(context, screenHeight, as, manager);
+        this.userInput = new UserInput(context, screenHeight, as, knob, manager);
         
         // Make the Fence
         Fence fence = new Fence(context, bitmapOptions, screenWidth, screenHeight);

@@ -85,6 +85,9 @@ public class AccelerateSlider extends DrawableObject{
 		this.sliderButtonPressed.y = this.originalSliderButtonY +yOffset;
     }
 
+	/* the methods below establish the screen region
+	 *  where screen touches will be handled by the slider
+	 */
 	public float getSliderRegionX() {
 		return this.x;
 	}

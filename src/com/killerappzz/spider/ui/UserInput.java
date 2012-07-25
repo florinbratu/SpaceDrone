@@ -5,6 +5,7 @@ import android.os.Build;
 
 import com.killerappzz.spider.objects.ObjectManager;
 import com.killerappzz.spider.objects.ui.AccelerateSlider;
+import com.killerappzz.spider.objects.ui.DirectionKnob;
 import com.killerappzz.spider.ui.touch.InputTouchScreen;
 import com.killerappzz.spider.ui.touch.MultiTouchFilter;
 import com.killerappzz.spider.ui.touch.SingleTouchFilter;
@@ -28,10 +29,12 @@ public class UserInput {
     // the slider UI object
     // TODO this needs to be replaced with the future more-generic HUD
     private final AccelerateSlider as;
+    private final DirectionKnob knob;
     private final ObjectManager om;
 	
-	public UserInput(Context context, int screenHeight, AccelerateSlider as, ObjectManager om) {
+	public UserInput(Context context, int screenHeight, AccelerateSlider as, DirectionKnob knob, ObjectManager om) {
 		this.as = as;
+		this.knob = knob;
 		this.om = om;
 		// the touch events receiver
 		touchScreen = new InputTouchScreen();
@@ -45,8 +48,33 @@ public class UserInput {
 	}
 	
 	public void process(float timeDeltaSeconds) {
-		
 		// acceleration slider
+		processAccelerationSlider(timeDeltaSeconds);
+		// direction knob
+		processDirectionKnob(timeDeltaSeconds);
+	}
+	
+	private void processDirectionKnob(float timeDeltaSeconds) {
+		final InputXY knobTouch = touchScreen.findPointerInRegion(
+				knob.getTouchRegionX(), 
+				knob.getTouchRegionY(), 
+				knob.getTouchRegionWidth(), 
+				knob.getTouchRegionHeight());
+		
+		if(knobTouch != null) {
+			float touchX = knobTouch.getX();
+			float touchY = knobTouch.getY();
+			if(knob.touchWithinRegion( touchX, touchY)){
+				knob.setTouchSpot(touchX, touchY);
+			} else {
+				// TODO
+			}
+		} else {
+			// TODO
+		}
+	}
+
+	private void processAccelerationSlider(float timeDeltaSeconds) {
 		final InputXY sliderTouch = touchScreen.findPointerInRegion(
 				as.getSliderRegionX(),
 				as.getSliderRegionY(),
