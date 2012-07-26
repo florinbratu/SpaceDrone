@@ -18,9 +18,13 @@ public class CanvasSurfaceView extends SurfaceView
 
     private SurfaceHolder mHolder;
     private CanvasThread mCanvasThread;
+    private int desiredWidth;
+    private int desiredHeight;
     
-    public CanvasSurfaceView(Context context) {
+    public CanvasSurfaceView(Context context, int width, int height) {
         super(context);
+        this.desiredHeight = height;
+        this.desiredWidth = width;
         init();
     }
 
@@ -213,7 +217,7 @@ public class CanvasSurfaceView extends SurfaceView
                     if (canvas != null) {
                         // Draw a frame!
                         profiler.start(ProfileRecorder.PROFILE_DRAW);
-                        mRenderer.drawFrame(canvas);
+                        drawFrame(canvas);
                         profiler.stop(ProfileRecorder.PROFILE_DRAW);
                         
                         profiler.start(ProfileRecorder.PROFILE_PAGE_FLIP);
@@ -227,7 +231,29 @@ public class CanvasSurfaceView extends SurfaceView
             }
         }
 
-        private boolean needToWait() {
+        private void drawFrame(Canvas canvas) {
+        	// aspect ration hocus pocus
+        	// as per http://stackoverflow.com/questions/10707519/scaling-a-fixed-surfaceview-to-fill-vertically-and-maintain-aspect-ratio
+        	final float scaleFactor = Math.min( getWidth() / CanvasSurfaceView.this.desiredWidth, getHeight() / CanvasSurfaceView.this.desiredHeight );
+            final float finalWidth = CanvasSurfaceView.this.desiredWidth * scaleFactor;
+            final float finalHeight = CanvasSurfaceView.this.desiredHeight * scaleFactor;
+            final float leftPadding = ( getWidth() - finalWidth ) / 2;
+            final float topPadding =  ( getHeight() - finalHeight ) / 2;
+
+            final int savedState = canvas.save();
+            try {
+                canvas.clipRect(leftPadding, topPadding, leftPadding + finalWidth, topPadding + finalHeight);
+
+                canvas.translate(leftPadding, topPadding);
+                canvas.scale(scaleFactor, scaleFactor);
+
+                mRenderer.drawFrame(canvas);
+            } finally {
+                canvas.restoreToCount(savedState);
+            }
+		}
+
+		private boolean needToWait() {
             return (mPaused || (! mHasFocus) || (! mHasSurface) || mContextLost)
                 && (! mDone);
         }

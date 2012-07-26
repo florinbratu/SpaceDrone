@@ -12,12 +12,14 @@ public class MainActivity extends Activity {
 	
     private CanvasSurfaceView mCanvasSurfaceView;
     private Game game;
+    private final int width = 400;
+    private final int height = 300;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCanvasSurfaceView = new CanvasSurfaceView(this);
-        game = new Game(this);
+        mCanvasSurfaceView = new CanvasSurfaceView(this, width, height);
+        game = new Game(this, width, height);
         // load the game
         game.load(this);
         // register the engine

@@ -41,13 +41,13 @@ public class Game {
     private UserInput userInput;
     private final GameData data;
 	
-	public Game(Activity parentActivity) {
+	public Game(Activity parentActivity, int width, int height) {
 		// We need to know the width and height of the display pretty soon,
         // so grab the information now.
         DisplayMetrics dm = new DisplayMetrics();
         parentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        screenWidth = dm.widthPixels;
-        screenHeight = dm.heightPixels;
+        screenWidth = width;
+        screenHeight = height;
         
         data = new GameData();
         manager = new ObjectManager(this, data);
