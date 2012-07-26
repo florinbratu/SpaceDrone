@@ -69,8 +69,9 @@ public class UserInput {
 			} else {
 				knob.setBorderTouchSpot(touchX, touchY);
 			}
+			knob.setPressed(true);
 		} else {
-			// TODO reset the touch spot
+			knob.setPressed(false);
 		}
 	}
 

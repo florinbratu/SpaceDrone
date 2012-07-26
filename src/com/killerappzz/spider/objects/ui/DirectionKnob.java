@@ -32,6 +32,11 @@ public class DirectionKnob extends DrawableObject {
 
 	public void setPressed(boolean pressed) {
 		this.pressed = pressed;
+		if(!pressed) {
+			// reset knob position
+			setTouchSpot(this.knob.x + this.knob.width / 2, 
+					this.knob.y + this.knob.height / 2);
+		}
 	}
 	
 	public DirectionKnob(Context context, BitmapFactory.Options bitmapOptions, 
