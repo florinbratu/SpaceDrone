@@ -34,8 +34,7 @@ public class DirectionKnob extends DrawableObject {
 		this.pressed = pressed;
 		if(!pressed) {
 			// reset knob position
-			setTouchSpot(this.knob.x + this.knob.width / 2, 
-					this.knob.y + this.knob.height / 2);
+			setTouchSpot(this.centerX, this.centerY);
 		}
 	}
 	
@@ -159,6 +158,14 @@ public class DirectionKnob extends DrawableObject {
 		this.touchSpot.y = py * t + centerY * (1 - t);
 		this.touchSpot.x -= this.touchSpot.width / 2;
 		this.touchSpot.y -= this.touchSpot.height / 2;
+	}
+
+	public float getNewVelocityX(float touchX) {
+		return touchX - this.centerX;
+	}
+
+	public float getNewVelocityY(float touchY) {
+		return touchY - this.centerY;
 	}
 
 }

@@ -69,6 +69,9 @@ public class UserInput {
 			} else {
 				knob.setBorderTouchSpot(touchX, touchY);
 			}
+			this.om.processDirectionChange(
+					knob.getNewVelocityX(touchX), 
+					knob.getNewVelocityY(touchY));
 			knob.setPressed(true);
 		} else {
 			knob.setPressed(false);
@@ -92,7 +95,7 @@ public class UserInput {
 			// set pressed state
 			this.as.setPressed(true);
 			// update speed
-			this.om.processUI(offsetFrac);
+			this.om.processAccelerationChange(offsetFrac);
 		} else {
 			offsetFrac = 0;
 			this.as.setPressed(false);

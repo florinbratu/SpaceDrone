@@ -244,12 +244,20 @@ public class ObjectManager extends SimpleOnGestureListener{
 	}
 
 	/*
-	 * Handles messages coming from the user via User Input, like:
-	 * 	- acceleration speed changes
+	 * Handles acceleration change request 
+	 * coming from the user via User Input
 	 */
-	public void processUI(float accelerationOffset) {
+	public void processAccelerationChange(float accelerationOffset) {
 		// update object speed according to the newly requested acceleration
 		spider.updateSpeed(accelerationOffset);
+	}
+	
+	/*
+	 * Handles movement direction change request 
+	 * coming from the user via User Input
+	 */
+	public void processDirectionChange(float touchX, float touchY) {
+		spider.setVelocity(touchX, touchY);
 	}
 	
 }
