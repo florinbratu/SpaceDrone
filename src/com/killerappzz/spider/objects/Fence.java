@@ -20,15 +20,12 @@ public class Fence extends DrawableObject implements ICollidable{
 	
 	private final GeometricPath perimeter;
 	private final Paint perimeterPaint;
+	private final ObjectManager manager;
 	
-	private int scrWidth;
-	private int scrHeight;
-	
-	public Fence(Context context, Options bitmapOptions, int scrWidth, int scrHeight) {
+	public Fence(Context context, Options bitmapOptions, ObjectManager theManager) {
 		this.x = this.y = 0;
+		this.manager = theManager;
 		setVelocity(0, 0);
-		this.scrWidth = scrWidth;
-		this.scrHeight = scrHeight;
 		this.perimeter = new GeometricPath();
 		this.perimeterPaint = Customization.getPerimeterPaint(context, bitmapOptions);
 	}
@@ -70,7 +67,7 @@ public class Fence extends DrawableObject implements ICollidable{
 	 * @see com.killerappzz.spider.objects.DrawableObject#boundsCheck(int, int)
 	 */
 	@Override
-	public void boundsCheck(int screenWidth, int screenHeight) {
+	public void boundsCheck(int worldWidth, int worldHeight) {
 		// TODO for culling might be useful
 
 	}
@@ -110,9 +107,9 @@ public class Fence extends DrawableObject implements ICollidable{
 	 */
 	@Override
 	public void updateScreen(int width, int height) {
-		this.scrHeight = height;
-		this.scrWidth = width;
-		// TODO for sure we will do stuff here, when we will do culling
+		this.perimeter.scale(this.manager.getViewport().getScaleFactorX(),
+				this.manager.getViewport().getScaleFactorY());
+		// TODO for sure we will do more stuff here, when we will do culling
 	}
 
 	public void collisionHandler() {

@@ -15,9 +15,11 @@ import android.graphics.Canvas;
  */
 public abstract class Sprite extends DrawableObject {
     protected Bitmap mBitmap;
+    protected ObjectManager theManager;
     
-    public Sprite(Bitmap bitmap) {
+    public Sprite(Bitmap bitmap, ObjectManager manager) {
         mBitmap = bitmap;
+        this.theManager = manager;
     }
     
     /**
@@ -27,12 +29,22 @@ public abstract class Sprite extends DrawableObject {
      * @param context the Context providing the underlying resource
      * @param resourceId the image resource
      */
-    public Sprite(Context context, BitmapFactory.Options bitmapOptions, int resourceId) {
+    public Sprite(Context context, BitmapFactory.Options bitmapOptions, int resourceId, ObjectManager manager) {
+    	this.theManager = manager;
     	if (context != null) {
             
             InputStream is = context.getResources().openRawResource(resourceId);
             try {
-                mBitmap = BitmapFactory.decodeStream(is, null, bitmapOptions);
+                Bitmap decodedBitmap = BitmapFactory.decodeStream(is, null, bitmapOptions);
+                this.width = bitmapOptions.outWidth;
+            	this.height = bitmapOptions.outHeight;
+                // scale the bitch, according to the viewport
+                int dstWidth = (int)(this.width * this.theManager.getViewport().getScaleFactorX());
+                int dstHeight = (int)(this.height * this.theManager.getViewport().getScaleFactorY());
+                mBitmap = Bitmap.createScaledBitmap(decodedBitmap, dstWidth, dstHeight, true);
+                this.width = dstWidth;
+                this.height = dstHeight;
+                decodedBitmap.recycle();
             } finally {
                 try {
                     is.close();
@@ -42,17 +54,25 @@ public abstract class Sprite extends DrawableObject {
             }
         }
     	
-    	this.width = bitmapOptions.outWidth;
-    	this.height = bitmapOptions.outHeight;
     }
     
     @Override
     public void draw(Canvas canvas) {
-        // The Canvas system uses a screen-space coordinate system, that is,
-        // 0,0 is the top-left point of the canvas.  But in order to align
-        // with OpenGL's coordinate space (which places 0,0 and the lower-left),
-        // for this test I flip the y coordinate.
-        canvas.drawBitmap(mBitmap, x, canvas.getHeight() - (y + height), null);
+        // draw by using screen coordinates!
+        canvas.drawBitmap(mBitmap, theManager.getViewport().worldToScreenX(x),
+        		theManager.getViewport().worldToScreenY(y + height), null);
+    }
+    
+    @Override
+    public void updateScreen(int width, int height) {
+    	// scale the bitch, according to the viewport
+        int dstWidth = (int)(this.width * this.theManager.getViewport().getScaleFactorX());
+        int dstHeight = (int)(this.height * this.theManager.getViewport().getScaleFactorY());
+        Bitmap scaledShit = Bitmap.createScaledBitmap(mBitmap, dstWidth, dstHeight, true);
+        mBitmap.recycle();
+        mBitmap = scaledShit;
+        this.width = dstWidth;
+        this.height = dstHeight;
     }
     
 
@@ -64,27 +84,5 @@ public abstract class Sprite extends DrawableObject {
     	mBitmap.recycle();
     	mBitmap = null;
     }
-
-	@Override
-	public void boundsCheck(int screenWidth, int screenHeight) {
-    	if ((this.x < 0.0f && this.getVelocityX() < 0.0f) 
-                || (this.x > screenWidth- this.width 
-                        && this.getVelocityX() > 0.0f)) {
-    		// TODO different behaviour for different objects
-    		// spider will "stick" to margins. the styx will bounce.
-    		// for the moment we have only spider behaviour
-            this.x = Math.max(0.0f, 
-                    Math.min(this.x, screenWidth - this.width));
-            this.setVelocity(0, 0);
-        }
-        
-        if ((this.y < 0.0f && this.getVelocityY() < 0.0f) 
-                || (this.y > screenHeight - this.height 
-                        && this.getVelocityY() > 0.0f)) {
-            this.y = Math.max(0.0f, 
-                    Math.min(this.y, screenHeight - this.height));
-            this.setVelocity(0, 0);
-        }
-	}
     
 }

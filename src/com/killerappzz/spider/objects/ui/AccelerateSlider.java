@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.objects.DrawableObject;
+import com.killerappzz.spider.objects.ObjectManager;
 
 /**
  * The slider controlling the Acceleration value
@@ -31,12 +32,13 @@ public class AccelerateSlider extends DrawableObject{
 	}
 	
 	public AccelerateSlider(Context context, BitmapFactory.Options bitmapOptions, 
-			int sliderBaseResID, int sliderButtonResID, int sliderButtonPressedResID)
+			int sliderBaseResID, int sliderButtonResID, int sliderButtonPressedResID,
+			ObjectManager om)
 	{
 		// load drawables
-		this.sliderBase = new DrawableUI(context, bitmapOptions, sliderBaseResID);
-		this.sliderButton = new DrawableUI(context, bitmapOptions, sliderButtonResID);
-		this.sliderButtonPressed = new DrawableUI(context, bitmapOptions, sliderButtonPressedResID);
+		this.sliderBase = new DrawableUI(context, bitmapOptions, sliderBaseResID, om);
+		this.sliderButton = new DrawableUI(context, bitmapOptions, sliderButtonResID, om);
+		this.sliderButtonPressed = new DrawableUI(context, bitmapOptions, sliderButtonPressedResID, om);
 		// inital state == depressed
 		this.pressed = false;
 	}
@@ -54,7 +56,7 @@ public class AccelerateSlider extends DrawableObject{
 	}
 
 	@Override
-	public void boundsCheck(int screenWidth, int screenHeight) {
+	public void boundsCheck(int worldWidth, int worldHeight) {
 		// don't need
 	}
 
@@ -76,7 +78,11 @@ public class AccelerateSlider extends DrawableObject{
 
 	@Override
 	public void updateScreen(int width, int height) {
-		// TODO Auto-generated method stub
+		this.sliderBase.updateScreen(width, height);
+		this.sliderButton.updateScreen(width, height);
+		this.sliderButtonPressed.updateScreen(width, height);
+		// need to reset positions, this will recompute placement of sub elements
+		setPosition(this.x, this.y);
 	}
 	
 	public void setMovementSliderOffset(float offset) {

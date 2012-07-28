@@ -16,6 +16,7 @@ import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.ProfileRecorder;
 import com.killerappzz.spider.engine.Game;
 import com.killerappzz.spider.engine.GameData;
+import com.killerappzz.spider.engine.Viewport;
 
 /**
  * Handles objects which are displayed on the screen
@@ -43,14 +44,17 @@ public class ObjectManager extends SimpleOnGestureListener{
     private Vibrator vibrator;
     // the game Data
     private final GameData data;
+    // the Viewport. useful for objects
+    private final Viewport viewport;
 	
-	public ObjectManager(Game theGame, GameData theData) {
+	public ObjectManager(Game theGame, GameData theData, Viewport theViewport) {
 		this.data = theData;
 		this.objects = new LinkedList<DrawableObject>();
 		this.backgroundObjects = new LinkedList<DrawableObject>();
 		this.sceneObjects = new LinkedList<DrawableObject>();
 		this.state = SceneState.OBJECT_MOVE;
 		this.game = theGame;
+		this.viewport = theViewport;
 		statsPaint = Customization.getStatsPaint();
 	}
 	
@@ -108,8 +112,8 @@ public class ObjectManager extends SimpleOnGestureListener{
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		float touchX = e1.getX();
-		// need to flip Y position
-		float touchY = (float)game.getScreenHeight() - e1.getY();
+		// TODO touch handling
+		float touchY = (float)viewport.getWorldHeight() - e1.getY();
 		if(spiderTouched(touchX, touchY)) {
 			Log.d("SPIDER", "Spider touched!");
 			spider.setVelocity(e2.getX() - e1.getX(), - e2.getY() + e1.getY() );
@@ -119,7 +123,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 	}
 
 	private boolean spiderTouched(float x, float y) {
-		float range = (1.0f * (this.game.getScreenHeight() + this.game.getScreenWidth()) 
+		float range = (1.0f * this.viewport.getScreenOOM() 
 			* Constants.TOUCH_ERROR_TOLERANCE_PERCENTILE) / 200.0f;
 		// calculate the distance from touch point to spider
 		double distance = Math.sqrt( (x - spider.x - spider.width * 0.5f) * (x - spider.x - spider.width * 0.5f) 
@@ -129,8 +133,8 @@ public class ObjectManager extends SimpleOnGestureListener{
 
 	public void updatePositions(float timeDeltaSeconds) {
 		// check for potential scene state switch
-		boolean xExpansion = needXExpansion(game.getScreenWidth());
-		boolean yExpansion = needYExpansion(game.getScreenHeight());
+		boolean xExpansion = needXExpansion(viewport.getWorldWidth());
+		boolean yExpansion = needYExpansion(viewport.getWorldHeight());
 		boolean needExpand = xExpansion || yExpansion;
 		if(state.equals(SceneState.OBJECT_MOVE)) {
 			if(needExpand) {
@@ -167,7 +171,7 @@ public class ObjectManager extends SimpleOnGestureListener{
 		for(DrawableObject object : objects) {
 			if(object.speed!=0 && !(object.getVelocityX() == 0 && object.getVelocityY() == 0)) {
 				object.updatePosition(timeDeltaSeconds);
-				object.boundsCheck(game.getScreenWidth(), game.getScreenHeight());
+				object.boundsCheck((int)viewport.getWorldWidth(), (int)viewport.getWorldHeight());
 			}
 		}
 		
@@ -194,15 +198,15 @@ public class ObjectManager extends SimpleOnGestureListener{
 		}
 	}
 
-	public boolean needXExpansion(int screenWidth) {
-		return ((spider.x < screenWidth * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityX() < 0.0f) 
-                || (spider.x > screenWidth - screenWidth * Constants.EXPANSION_PERCENTILE / 100
+	public boolean needXExpansion(float worldWidth) {
+		return ((spider.x < worldWidth * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityX() < 0.0f) 
+                || (spider.x > worldWidth - worldWidth * Constants.EXPANSION_PERCENTILE / 100
                         && spider.getVelocityX() > 0.0f));
 	}
 	
-	public boolean needYExpansion(int screenHeight) {
-		return ((spider.y < screenHeight * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityY() < 0.0f) 
-                || (spider.y > screenHeight - screenHeight * Constants.EXPANSION_PERCENTILE / 100 
+	public boolean needYExpansion(float worldHeight) {
+		return ((spider.y < worldHeight * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityY() < 0.0f) 
+                || (spider.y > worldHeight - worldHeight * Constants.EXPANSION_PERCENTILE / 100 
                         && spider.getVelocityY() > 0.0f));
 	}
 
@@ -233,6 +237,9 @@ public class ObjectManager extends SimpleOnGestureListener{
 	}
 
 	public void updateScreen(int width, int height) {
+		// first set the viewport
+		this.viewport.updateScreen(width, height);
+		// then, let the objects resettle
 		for(DrawableObject obj:this.objects) {
 			obj.updateScreen(width, height);
 		}
@@ -258,6 +265,10 @@ public class ObjectManager extends SimpleOnGestureListener{
 	 */
 	public void processDirectionChange(float touchX, float touchY) {
 		spider.setVelocity(touchX, touchY);
+	}
+	
+	public Viewport getViewport() {
+		return this.viewport;
 	}
 	
 }

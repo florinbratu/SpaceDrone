@@ -207,5 +207,13 @@ public class GeometricPath extends Path {
 		sb.append("}");
 		return sb.toString();
 	}
+
+	public void scale(float scaleFactorX, float scaleFactorY) {
+		this.geometry.scale(scaleFactorX, scaleFactorY);
+		this.center.scale(scaleFactorX, scaleFactorY);
+		for(Point2D vertex: this.vertices) {
+			vertex.scale(scaleFactorX,scaleFactorY);
+		}
+	}
 	
 }

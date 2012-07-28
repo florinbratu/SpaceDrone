@@ -27,26 +27,23 @@ public class Background extends Sprite{
 	// to be displayed from the image background
 	private final Rect sourceRect;
 	private final Rect destRect;
-	
-	private int worldWidth;
-	private int worldHeight;
-	
-	private final ObjectManager om;
+	// screen coordinates
+	private int screenWidth;
+	private int screenHeight; 
 	
 	public Background(Context context, Options bitmapOptions, int resourceId,
-			int scrWidth, int scrHeight, ObjectManager manager) {
-		super(context, bitmapOptions, resourceId);
-		this.worldWidth = scrWidth;
-		this.worldHeight = scrHeight;
-		this.om = manager;
+			ObjectManager manager) {
+		super(context, bitmapOptions, resourceId, manager);
 		this.setPosition(0, 0);
 		setVelocity(0, 0);
-		this.sourceRect = new Rect(0, 0, scrWidth, scrHeight);
-		this.destRect = new Rect(0, 0, scrWidth, scrHeight);
+		this.screenWidth = (int)manager.getViewport().getScreenWidth();
+		this.screenHeight = (int)manager.getViewport().getScreenHeight();
+		this.sourceRect = new Rect(0, 0, screenWidth, screenHeight);
+		this.destRect = new Rect(0, 0, screenWidth, screenHeight);
 	}
 	
 	@Override
-	public void boundsCheck(int screenWidth, int screenHeight) {
+	public void boundsCheck(int worldWidth, int worldHeight) {
 		// the Background is actually larger than the Screen
 		// so the tests will be "upside down"
 		// the (x,y) coordinates are coordinates for 
@@ -83,22 +80,26 @@ public class Background extends Sprite{
 	public void updatePosition(float timeDeltaSeconds) {
 		super.updatePosition(timeDeltaSeconds);
 		this.sourceRect.set((int)this.x, (int)this.y, 
-				(int)this.x + this.worldWidth, (int)this.y + this.worldHeight);
+				(int)this.x + this.screenWidth, (int)this.y + this.screenHeight);
 	}
 	
 	@Override
 	public void setVelocity(float velocityX, float velocityY) {
 		super.setVelocity(velocityX, velocityY);
 		if(velocityX == 0 && velocityY == 0 
-				&& SceneState.SCENE_MOVE.equals(this.om.state)) {
-			this.om.doneScreenScrollBackground();
+				&& SceneState.SCENE_MOVE.equals(this.theManager.state)) {
+			this.theManager.doneScreenScrollBackground();
 		}
 	}
 
 	@Override
 	public void updateScreen(int width, int height) {
-		this.worldWidth = width;
-		this.worldHeight = height;
+		super.updateScreen(width, height);
+		this.screenWidth = width;
+		this.screenHeight = height;
+		this.destRect.set(0, 0, width, height);
+		this.sourceRect.set((int)this.x, (int)this.y, 
+				(int)this.x + width, (int)this.y + height);
 	}
 	
 }

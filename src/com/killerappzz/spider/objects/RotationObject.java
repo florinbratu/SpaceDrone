@@ -17,13 +17,11 @@ public class RotationObject extends Sprite{
 	private float rotationAngle;
 	// the object we are following
 	private DrawableObject pivot;
-	private float screenHeight;
 
 	public RotationObject(Context context, Options bitmapOptions, int resourceId, 
-			DrawableObject thePivot, float screenHeight) {
-		super(context, bitmapOptions, resourceId);
+			DrawableObject thePivot, ObjectManager manager) {
+		super(context, bitmapOptions, resourceId, manager);
 		this.pivot = thePivot;
-		this.screenHeight = screenHeight;
 	}
 	
 	public void setRotationAngle(double angle) {
@@ -33,7 +31,9 @@ public class RotationObject extends Sprite{
 	@Override
 	public void draw(Canvas canvas) {
 		canvas.save();
-		canvas.rotate(rotationAngle, pivot.x, canvas.getHeight() - pivot.y);
+		float pivotScreenX = this.theManager.getViewport().worldToScreenX(pivot.x);
+		float pivotScreenY = this.theManager.getViewport().worldToScreenY(pivot.y);
+		canvas.rotate(rotationAngle, pivotScreenX, pivotScreenY);
 		super.draw(canvas);
 		canvas.restore();
 	}
@@ -47,8 +47,8 @@ public class RotationObject extends Sprite{
 	}
 
 	@Override
-	public void updateScreen(int width, int height) {
-		this.screenHeight = height;
+	public void boundsCheck(int worldWidth, int worldHeight) {
+		// not used
 	}
 
 }

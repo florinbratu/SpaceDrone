@@ -233,4 +233,10 @@ public class Point extends Point2D implements java.io.Serializable {
 		this.x += (int) Math.floor(dx+0.5);
         this.y += (int) Math.floor(dy+0.5);
 	}
+
+	@Override
+	public void scale(float scaleFactorX, float scaleFactorY) {
+		this.x = (int)(this.x * scaleFactorX);
+		this.y = (int)(this.y * scaleFactorY);
+	}
 }

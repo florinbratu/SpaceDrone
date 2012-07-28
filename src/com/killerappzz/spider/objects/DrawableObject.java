@@ -88,10 +88,10 @@ public abstract class DrawableObject {
      * Determine how the object will react when
      * encountering the screen margins
      * 
-     * @param screenWidth
-     * @param screenHeight
+     * @param worldWidth
+     * @param worldHeight
      */
-    public abstract void boundsCheck(int screenWidth, int screenHeight);
+    public abstract void boundsCheck(int worldWidth, int worldHeight);
     
     public abstract void draw(Canvas canvas);
     public abstract void cleanup();

@@ -6,9 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
-import android.view.animation.RotateAnimation;
 
-import com.killerappzz.spider.Constants;
+import com.killerappzz.spider.Customization;
 import com.killerappzz.spider.R;
 import com.killerappzz.spider.objects.Background;
 import com.killerappzz.spider.objects.Fence;
@@ -29,11 +28,10 @@ import com.killerappzz.spider.ui.touch.TouchFilter;
  */
 public class Game {
 	
-	private final int worldWidth;
-	private final int worldHeight;
-	
     private final ObjectManager manager;
     private final GameRenderer renderer;
+    // the viewport
+    private final Viewport viewport;
     private final BitmapFactory.Options bitmapOptions;
     // this is for touch gestures
     private GestureDetector touchHandler;
@@ -46,11 +44,15 @@ public class Game {
         // so grab the information now.
         DisplayMetrics dm = new DisplayMetrics();
         parentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        worldWidth = dm.widthPixels;
-        worldHeight = dm.heightPixels;
+        float screenWidth = dm.widthPixels;
+        float screenHeight = dm.heightPixels;
+        // TODO should be an user option. will be done when Options menu will be put in place
+        float worldWidth = Customization.WORLD_WIDTH;
+        float worldHeight = Customization.WORLD_HEIGHT;
+        this.viewport = new Viewport(worldWidth, worldHeight, screenWidth, screenHeight);
         
         data = new GameData();
-        manager = new ObjectManager(this, data);
+        manager = new ObjectManager(this, data, viewport);
 		renderer = new GameRenderer(manager);
 		bitmapOptions = new BitmapFactory.Options();
 		touchHandler = new GestureDetector(parentActivity, manager);
@@ -67,39 +69,42 @@ public class Game {
         // Note that the background image is larger than the screen, 
         // so some clipping will occur when it is drawn.
 		Background background = new Background(context, bitmapOptions, 
-				R.drawable.background, worldWidth, worldHeight, manager);
+				R.drawable.background, manager);
         manager.addBackgroundObject(background);
         
         // make the hud
         AccelerateSlider as = new AccelerateSlider(context, bitmapOptions, 
         		R.drawable.ui_acceleration_slider_base, 
         		R.drawable.ui_acceleration_slider_button, 
-        		R.drawable.ui_acceleration_slider_button_pressed);
+        		R.drawable.ui_acceleration_slider_button_pressed, manager);
         // place in lower-left corner
         as.setPosition(0, 0);
         manager.addSceneObject(as);
         // the directional knob
         DirectionKnob knob = new DirectionKnob(context, bitmapOptions, 
         		R.drawable.ui_direction_knob, 
-        		R.drawable.ui_direction_touch_spot, worldWidth);
+        		R.drawable.ui_direction_touch_spot, manager);
         // place in lower-right corner
-        knob.setPosition(this.worldWidth, 0);
+        knob.setPosition(manager.getViewport().getWorldWidth(), 0);
         manager.addSceneObject(knob);
         
         // make the user input
-        this.userInput = new UserInput(context, worldHeight, as, knob, manager);
+        this.userInput = new UserInput(context, as, knob, manager);
         
         // Make the Fence
-        Fence fence = new Fence(context, bitmapOptions, worldWidth, worldHeight);
+        Fence fence = new Fence(context, bitmapOptions, manager);
         // TODO load from File
         manager.addFence(fence);
         
         // Make the spider
-        Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager, worldWidth, worldHeight);
+        Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager);
         // the center of the world
-        int centerX = (this.worldWidth - (int)spider.width) / 2;
-        int centerY = (this.worldHeight - (int)spider.height) / 2;
+        int centerX = (int)(manager.getViewport().getWorldWidth() - spider.width) / 2;
+        int centerY = (int)(manager.getViewport().getWorldHeight() - spider.height) / 2;
         spider.setPosition(centerX, centerY);
+        // speed is set relative to background size. 
+        // this way, we are independent of multi screen sizes.
+        spider.setSpeed(background);
         manager.addSpider(spider);
         
         fence.inlineCreate(spider);
@@ -108,7 +113,7 @@ public class Game {
         
         // make the shit following the spider
         RotationObject pusher = new RotationObject(context, 
-        		bitmapOptions, R.drawable.pusher, spider, worldHeight);
+        		bitmapOptions, R.drawable.pusher, spider, manager);
         spider.setPusher(pusher);
         pusher.setRotationAngle(0);
         manager.addSceneObject(pusher);
@@ -122,14 +127,6 @@ public class Game {
 	
 	public void cleanup() {
 		manager.cleanup();
-	}
-
-	public int getScreenWidth() {
-		return worldWidth;
-	}
-
-	public int getScreenHeight() {
-		return worldHeight;
 	}
 	
 	public GameRenderer getRenderer() {

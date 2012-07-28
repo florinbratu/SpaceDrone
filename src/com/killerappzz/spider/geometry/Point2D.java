@@ -147,6 +147,12 @@ public abstract class Point2D implements Cloneable {
 			this.x += dx;
 			this.y += dy;
 		}
+
+		@Override
+		public void scale(float scaleFactorX, float scaleFactorY) {
+			this.x *= scaleFactorX;
+			this.y *= scaleFactorY;
+		}
     }
 
     /**
@@ -241,6 +247,12 @@ public abstract class Point2D implements Cloneable {
 		public void offset(float dx, float dy) {
 			this.x += (float)dx;
 			this.y += (float)dy;
+		}
+
+		@Override
+		public void scale(float scaleFactorX, float scaleFactorY) {
+			this.x *= scaleFactorX;
+			this.y *= scaleFactorY;
 		}
     }
 
@@ -449,5 +461,7 @@ public abstract class Point2D implements Cloneable {
         }
         return super.equals(obj);
     }
+
+	public abstract void scale(float scaleFactorX, float scaleFactorY);
 
 }

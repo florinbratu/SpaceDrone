@@ -32,7 +32,7 @@ public class UserInput {
     private final DirectionKnob knob;
     private final ObjectManager om;
 	
-	public UserInput(Context context, int screenHeight, AccelerateSlider as, DirectionKnob knob, ObjectManager om) {
+	public UserInput(Context context, AccelerateSlider as, DirectionKnob knob, ObjectManager om) {
 		this.as = as;
 		this.knob = knob;
 		this.om = om;
@@ -41,9 +41,9 @@ public class UserInput {
 		// the touch filter
 		final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
 		if (sdkVersion < Build.VERSION_CODES.ECLAIR) {
-			touchFilter = new SingleTouchFilter(touchScreen, screenHeight);
+			touchFilter = new SingleTouchFilter(touchScreen, (int)om.getViewport().getScreenHeight());
 		} else {
-			touchFilter = new MultiTouchFilter(context, touchScreen, screenHeight);
+			touchFilter = new MultiTouchFilter(context, touchScreen, (int)om.getViewport().getScreenHeight());
 		}
 	}
 	

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 
 import com.killerappzz.spider.Constants;
 import com.killerappzz.spider.objects.DrawableObject;
+import com.killerappzz.spider.objects.ObjectManager;
 
 /**
  * The knob controlling the movement direction
@@ -17,7 +18,6 @@ public class DirectionKnob extends DrawableObject {
 	
 	private final DrawableUI knob;
 	private final DrawableUI touchSpot;
-	private int screenWidth;
 	// boolean marking if slider button pressed or not
 	private boolean pressed;
 	// some useful coordinates, precomputed
@@ -39,17 +39,15 @@ public class DirectionKnob extends DrawableObject {
 	}
 	
 	public DirectionKnob(Context context, BitmapFactory.Options bitmapOptions, 
-			int knobResID, int touchSpotResID, int screenWidth)
+			int knobResID, int touchSpotResID, ObjectManager manager)
 	{
-		this.screenWidth = screenWidth;
 		// load drawables
-		this.knob = new DrawableUI(context, bitmapOptions, knobResID);
-		this.touchSpot = new DrawableUI(context, bitmapOptions, touchSpotResID);
+		this.knob = new DrawableUI(context, bitmapOptions, knobResID, manager);
+		this.touchSpot = new DrawableUI(context, bitmapOptions, touchSpotResID, manager);
 		// inital state == depressed
 		this.pressed = false;
 	}
 	
-	// TODO flexible setPosition in DrawableUI, taking into account the corner placement and sub components size
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -69,7 +67,7 @@ public class DirectionKnob extends DrawableObject {
 	}
 		
 	@Override
-	public void boundsCheck(int screenWidth, int screenHeight) {
+	public void boundsCheck(int worldWidth, int worldHeight) {
 		// useless
 	}
 
@@ -88,7 +86,10 @@ public class DirectionKnob extends DrawableObject {
 
 	@Override
 	public void updateScreen(int width, int height) {
-		this.screenWidth = width;
+		this.knob.updateScreen(width, height);
+		this.touchSpot.updateScreen(width, height);
+		// need to reset positions, this will recompute placement of sub elements
+		setPosition(this.x, this.y);
 	}
 
 	public float getTouchRegionX() {
