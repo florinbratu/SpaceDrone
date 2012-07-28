@@ -48,4 +48,8 @@ public final class Customization {
 	
 	// vibration period for haptic feedback
 	public static final long VIBRATION_PERIOD = 300;
+	
+	// screen rezolution, that is good for my phone. TODO this will be a customization option
+	public static final int SCREEN_WIDTH = 569;
+	public static final int SCREEN_HEIGHT = 320;
 }
