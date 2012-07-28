@@ -9,8 +9,8 @@ import android.graphics.Canvas;
  */
 public abstract class DrawableObject {
     // Position.
-    public float x;
-    public float y;
+    protected float x;
+    protected float y;
     
     // Velocity. Prin velocity eu inteleg directia in care tre sa se miste
     private float velocityX;
@@ -39,6 +39,19 @@ public abstract class DrawableObject {
     
     public float getVelocityY() {
     	return velocityY;
+    }
+    
+    public float getPositionX() {
+    	return this.x;
+    }
+    
+    public float getPositionY() {
+    	return this.y;
+    }
+    
+    public void setPosition(float x, float y) {
+    	this.x = x;
+    	this.y = y;
     }
     
     // Movement speed

@@ -29,8 +29,8 @@ import com.killerappzz.spider.ui.touch.TouchFilter;
  */
 public class Game {
 	
-	private final int screenWidth;
-	private final int screenHeight;
+	private final int worldWidth;
+	private final int worldHeight;
 	
     private final ObjectManager manager;
     private final GameRenderer renderer;
@@ -46,8 +46,8 @@ public class Game {
         // so grab the information now.
         DisplayMetrics dm = new DisplayMetrics();
         parentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        screenWidth = dm.widthPixels;
-        screenHeight = dm.heightPixels;
+        worldWidth = dm.widthPixels;
+        worldHeight = dm.heightPixels;
         
         data = new GameData();
         manager = new ObjectManager(this, data);
@@ -67,7 +67,7 @@ public class Game {
         // Note that the background image is larger than the screen, 
         // so some clipping will occur when it is drawn.
 		Background background = new Background(context, bitmapOptions, 
-				R.drawable.background, screenWidth, screenHeight, manager);
+				R.drawable.background, worldWidth, worldHeight, manager);
         manager.addBackgroundObject(background);
         
         // make the hud
@@ -81,26 +81,25 @@ public class Game {
         // the directional knob
         DirectionKnob knob = new DirectionKnob(context, bitmapOptions, 
         		R.drawable.ui_direction_knob, 
-        		R.drawable.ui_direction_touch_spot, screenWidth);
+        		R.drawable.ui_direction_touch_spot, worldWidth);
         // place in lower-right corner
-        knob.setPosition(this.screenWidth, 0);
+        knob.setPosition(this.worldWidth, 0);
         manager.addSceneObject(knob);
         
         // make the user input
-        this.userInput = new UserInput(context, screenHeight, as, knob, manager);
+        this.userInput = new UserInput(context, worldHeight, as, knob, manager);
         
         // Make the Fence
-        Fence fence = new Fence(context, bitmapOptions, screenWidth, screenHeight);
+        Fence fence = new Fence(context, bitmapOptions, worldWidth, worldHeight);
         // TODO load from File
         manager.addFence(fence);
         
         // Make the spider
-        Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager, screenWidth, screenHeight);
-        // Spider location.
-        int centerX = (this.screenWidth - (int)spider.width) / 2;
-        int centerY = (this.screenHeight - (int)spider.height) / 2;
-        spider.x = centerX;
-        spider.y = centerY;
+        Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager, worldWidth, worldHeight);
+        // the center of the world
+        int centerX = (this.worldWidth - (int)spider.width) / 2;
+        int centerY = (this.worldHeight - (int)spider.height) / 2;
+        spider.setPosition(centerX, centerY);
         manager.addSpider(spider);
         
         fence.inlineCreate(spider);
@@ -109,7 +108,7 @@ public class Game {
         
         // make the shit following the spider
         RotationObject pusher = new RotationObject(context, 
-        		bitmapOptions, R.drawable.pusher, spider, screenHeight);
+        		bitmapOptions, R.drawable.pusher, spider, worldHeight);
         spider.setPusher(pusher);
         pusher.setRotationAngle(0);
         manager.addSceneObject(pusher);
@@ -126,11 +125,11 @@ public class Game {
 	}
 
 	public int getScreenWidth() {
-		return screenWidth;
+		return worldWidth;
 	}
 
 	public int getScreenHeight() {
-		return screenHeight;
+		return worldHeight;
 	}
 	
 	public GameRenderer getRenderer() {

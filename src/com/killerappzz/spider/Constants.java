@@ -26,14 +26,16 @@ public interface Constants {
 	public static final int STATS_POSITION_X = 0;
 	public static final int STATS_POSITION_Y = 16;
 	
-	// unde afisez acceleration slider
-	public static final float MOVEMENT_SLIDER_BASE_X = 20.0f;
-	public static final float MOVEMENT_SLIDER_BASE_Y = 16.0f;
-    public static final float MOVEMENT_SLIDER_BUTTON_Y = MOVEMENT_SLIDER_BASE_Y + 32.0f;
-    public static final float MOVEMENT_SLIDER_BUTTON_X =  MOVEMENT_SLIDER_BASE_X - 16.0f;
-    // unde afisez controlul directiei
- 	public static final float DIRECTION_KNOB_X = -16.0f;
- 	public static final float DIRECTION_KNOB_Y = 16.0f;
+	// offset-urile subcomponentelor din acceleration slider
+	// exprimate procentual in fct de dimensiunea componentei(obs pot avea si negativ)
+	public static final float MOVEMENT_SLIDER_BASE_X = 0.50f;
+	public static final float MOVEMENT_SLIDER_BASE_Y = 0.125f;
+    public static final float MOVEMENT_SLIDER_BUTTON_Y = 0.5f;
+    public static final float MOVEMENT_SLIDER_BUTTON_X = -0.25f;
+    // offset-urile subcomponentelor din acceleration slider
+ 	// exprimate procentual in fct de dimensiunea componentei
+ 	public static final float DIRECTION_KNOB_X = -0.125f;
+ 	public static final float DIRECTION_KNOB_Y = 0.125f;
 	
 	// TODO customization
 	public static final int MAX_LIFES = 3;

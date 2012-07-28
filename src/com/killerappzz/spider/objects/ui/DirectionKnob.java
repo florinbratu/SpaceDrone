@@ -54,15 +54,15 @@ public class DirectionKnob extends DrawableObject {
 		this.x = x;
 		this.y = y;
 		// component positions are relative to the slider position
-		this.knob.x = this.x + Constants.DIRECTION_KNOB_X
-				- this.knob.width; // this is hackish. we know the component is on the right
-		// that s why we shift it to fit in the visibe area
-		this.knob.y = this.y + Constants.DIRECTION_KNOB_Y;
-		this.touchSpot.x = this.knob.x + (this.knob.width - this.touchSpot.width) / 2;
-		this.touchSpot.y = this.knob.y + (this.knob.height - this.touchSpot.height) / 2;
+		this.knob.setPosition(this.x + Constants.DIRECTION_KNOB_X * this.knob.width
+				- this.knob.width, // this is hackish. we know the component is on the right
+								// that s why we shift it to fit in the visibe area 
+				this.y + Constants.DIRECTION_KNOB_Y * this.knob.height);
+		this.touchSpot.setPosition(this.knob.getPositionX() + (this.knob.width - this.touchSpot.width) / 2, 
+				this.knob.getPositionY() + (this.knob.height - this.touchSpot.height) / 2);
 		// coordinates of the knob center
-		this.centerX = this.knob.x + this.knob.width / 2;
-		this.centerY = this.knob.y + this.knob.height / 2;
+		this.centerX = this.knob.getPositionX() + this.knob.width / 2;
+		this.centerY = this.knob.getPositionY() + this.knob.height / 2;
 		// radiuses for the two circles
 		this.knobRadius = this.knob.width / 2;
 		this.touchSpotRadius = this.touchSpot.width / 2;
@@ -92,11 +92,11 @@ public class DirectionKnob extends DrawableObject {
 	}
 
 	public float getTouchRegionX() {
-		return this.knob.x;
+		return this.knob.getPositionX();
 	}
 
 	public float getTouchRegionY() {
-		return this.knob.y;
+		return this.knob.getPositionY();
 	}
 
 	public float getTouchRegionWidth() {
@@ -124,8 +124,8 @@ public class DirectionKnob extends DrawableObject {
 	}
 
 	public void setTouchSpot(float x, float y) {
-		this.touchSpot.x = x - this.touchSpot.width / 2;
-		this.touchSpot.y = y - this.touchSpot.height / 2;
+		this.touchSpot.setPosition(x - this.touchSpot.width / 2, 
+				y - this.touchSpot.height / 2);
 	}
 
 	/*
@@ -154,10 +154,11 @@ public class DirectionKnob extends DrawableObject {
 		float radius = knobRadius - touchSpotRadius;
 		float dist = distance(px,py,centerX,centerY);
 		float t = radius / dist;
-		this.touchSpot.x = px * t + centerX * (1 - t);
-		this.touchSpot.y = py * t + centerY * (1 - t);
-		this.touchSpot.x -= this.touchSpot.width / 2;
-		this.touchSpot.y -= this.touchSpot.height / 2;
+		float touchSpotx = px * t + centerX * (1 - t);
+		float touchSpoty = py * t + centerY * (1 - t);
+		touchSpotx -= this.touchSpot.width / 2;
+		touchSpoty -= this.touchSpot.height / 2;
+		this.touchSpot.setPosition(touchSpotx, touchSpoty);
 	}
 
 	public float getNewVelocityX(float touchX) {

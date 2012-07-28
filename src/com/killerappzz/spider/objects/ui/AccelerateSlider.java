@@ -45,12 +45,12 @@ public class AccelerateSlider extends DrawableObject{
 		this.x = x;
 		this.y = y;
 		// component positions are relative to the slider position
-		this.sliderBase.x = this.x + Constants.MOVEMENT_SLIDER_BASE_X;
-		this.sliderBase.y = this.y + Constants.MOVEMENT_SLIDER_BASE_Y;
-		this.sliderButton.x = this.x + Constants.MOVEMENT_SLIDER_BUTTON_X;
-		this.sliderButton.y = this.y + Constants.MOVEMENT_SLIDER_BUTTON_Y;
-		this.sliderButtonPressed.x = this.x + Constants.MOVEMENT_SLIDER_BUTTON_X;
-		this.sliderButtonPressed.y = this.originalSliderButtonY = this.y + Constants.MOVEMENT_SLIDER_BUTTON_Y;
+		this.sliderBase.setPosition(this.x + Constants.MOVEMENT_SLIDER_BASE_X * this.sliderBase.width , 
+				this.y + Constants.MOVEMENT_SLIDER_BASE_Y * this.sliderBase.height);
+		this.sliderButton.setPosition(this.sliderBase.getPositionX() + Constants.MOVEMENT_SLIDER_BUTTON_X * this.sliderButton.width,
+				this.sliderBase.getPositionY() + Constants.MOVEMENT_SLIDER_BUTTON_Y * this.sliderButton.height);
+		this.sliderButtonPressed.setPosition(this.sliderButton.getPositionX(), this.sliderButton.getPositionY());
+		this.originalSliderButtonY = this.sliderButton.getPositionY();
 	}
 
 	@Override
@@ -81,8 +81,10 @@ public class AccelerateSlider extends DrawableObject{
 	
 	public void setMovementSliderOffset(float offset) {
 		float yOffset = offset * (this.sliderBase.height / 2.0f);
-		this.sliderButton.y = this.originalSliderButtonY + yOffset;
-		this.sliderButtonPressed.y = this.originalSliderButtonY +yOffset;
+		this.sliderButton.setPosition(this.sliderButton.getPositionX(), 
+				this.originalSliderButtonY + yOffset);
+		this.sliderButtonPressed.setPosition(this.sliderButton.getPositionX(), 
+				this.originalSliderButtonY + yOffset);
     }
 
 	/* the methods below establish the screen region
@@ -97,11 +99,11 @@ public class AccelerateSlider extends DrawableObject{
 	}
 
 	public float getSliderRegionHeight() {
-		return Constants.MOVEMENT_SLIDER_BASE_Y + sliderBase.height;
+		return (1 + Constants.MOVEMENT_SLIDER_BASE_Y) * this.sliderBase.height;
 	}
 
 	public float getSliderRegionWidth() {
-		return Constants.MOVEMENT_SLIDER_BASE_X + sliderBase.width;
+		return (1 + Constants.MOVEMENT_SLIDER_BASE_X) * sliderBase.width;
 	}
 
 	public float getSliderBarWidth() {
@@ -110,7 +112,7 @@ public class AccelerateSlider extends DrawableObject{
 	}
 
 	public float getSliderBarY() {
-		return sliderBase.y;
+		return sliderBase.getPositionY();
 	}
 
 }

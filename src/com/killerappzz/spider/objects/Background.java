@@ -28,18 +28,18 @@ public class Background extends Sprite{
 	private final Rect sourceRect;
 	private final Rect destRect;
 	
-	private int scrWidth;
-	private int scrHeight;
+	private int worldWidth;
+	private int worldHeight;
 	
 	private final ObjectManager om;
 	
 	public Background(Context context, Options bitmapOptions, int resourceId,
 			int scrWidth, int scrHeight, ObjectManager manager) {
 		super(context, bitmapOptions, resourceId);
-		this.scrWidth = scrWidth;
-		this.scrHeight = scrHeight;
+		this.worldWidth = scrWidth;
+		this.worldHeight = scrHeight;
 		this.om = manager;
-		this.x = this.y = 0;
+		this.setPosition(0, 0);
 		setVelocity(0, 0);
 		this.sourceRect = new Rect(0, 0, scrWidth, scrHeight);
 		this.destRect = new Rect(0, 0, scrWidth, scrHeight);
@@ -83,7 +83,7 @@ public class Background extends Sprite{
 	public void updatePosition(float timeDeltaSeconds) {
 		super.updatePosition(timeDeltaSeconds);
 		this.sourceRect.set((int)this.x, (int)this.y, 
-				(int)this.x + this.scrWidth, (int)this.y + this.scrHeight);
+				(int)this.x + this.worldWidth, (int)this.y + this.worldHeight);
 	}
 	
 	@Override
@@ -97,8 +97,8 @@ public class Background extends Sprite{
 
 	@Override
 	public void updateScreen(int width, int height) {
-		this.scrWidth = width;
-		this.scrHeight = height;
+		this.worldWidth = width;
+		this.worldHeight = height;
 	}
 	
 }
