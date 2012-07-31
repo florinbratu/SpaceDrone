@@ -44,6 +44,9 @@ public class DirectionKnob extends DrawableObject {
 		// load drawables
 		this.knob = new DrawableUI(context, bitmapOptions, knobResID, manager);
 		this.touchSpot = new DrawableUI(context, bitmapOptions, touchSpotResID, manager);
+		// perform eventual shape correction
+		this.knob.shapeCorrection();
+		this.touchSpot.shapeCorrection();
 		// inital state == depressed
 		this.pressed = false;
 	}
@@ -88,6 +91,9 @@ public class DirectionKnob extends DrawableObject {
 	public void updateScreen(int width, int height) {
 		this.knob.updateScreen(width, height);
 		this.touchSpot.updateScreen(width, height);
+		// perform eventual shape correction
+		this.knob.shapeCorrection();
+		this.touchSpot.shapeCorrection();
 		// need to reset positions, this will recompute placement of sub elements
 		setPosition(this.x, this.y);
 	}
