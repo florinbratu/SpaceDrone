@@ -60,7 +60,7 @@ public abstract class Sprite extends DrawableObject {
     public void draw(Canvas canvas) {
         // draw by using screen coordinates!
         canvas.drawBitmap(mBitmap, theManager.getViewport().worldToScreenX(x),
-        		theManager.getViewport().worldToScreenY(y + height), null);
+        		canvas.getHeight() - this.height - theManager.getViewport().worldToScreenY(y), null);
     }
     
     @Override
