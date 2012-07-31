@@ -93,7 +93,7 @@ public class AccelerateSlider extends DrawableObject{
 	}
 	
 	public void setMovementSliderOffset(float offset) {
-		float yOffset = offset * (this.sliderBase.height / 2.0f);
+		float yOffset = offset * (this.sliderBase.intrinsicHeight / 2.0f);
 		this.sliderButton.setPosition(this.sliderButton.getPositionX(), 
 				this.originalSliderButtonY + yOffset);
 		this.sliderButtonPressed.setPosition(this.sliderButton.getPositionX(), 
@@ -104,15 +104,15 @@ public class AccelerateSlider extends DrawableObject{
 	 *  where screen touches will be handled by the slider
 	 */
 	public float getSliderRegionX() {
-		return this.x;
+		return this.om.getViewport().worldToScreenX(this.x);
 	}
 	
 	public float getSliderRegionY() {
-		return this.y;
+		return this.om.getViewport().worldToScreenY(this.y);
 	}
 
 	public float getSliderRegionHeight() {
-		return (1 + Constants.MOVEMENT_SLIDER_BASE_Y) * this.sliderBase.height;
+		return (1 + Constants.MOVEMENT_SLIDER_BASE_Y) * sliderBase.height;
 	}
 
 	public float getSliderRegionWidth() {
@@ -125,7 +125,7 @@ public class AccelerateSlider extends DrawableObject{
 	}
 
 	public float getSliderBarY() {
-		return sliderBase.getPositionY();
+		return this.om.getViewport().worldToScreenY(sliderBase.getPositionY());
 	}
 
 }
