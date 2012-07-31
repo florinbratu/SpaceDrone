@@ -54,8 +54,8 @@ public class AccelerateSlider extends DrawableObject{
 		// component positions are relative to the slider position
 		this.sliderBase.setPosition(this.x + Constants.MOVEMENT_SLIDER_BASE_X * this.sliderBase.intrinsicWidth , 
 				this.y + Constants.MOVEMENT_SLIDER_BASE_Y * this.sliderBase.intrinsicHeight);
-		this.sliderButton.setPosition(this.sliderBase.getPositionX() + this.om.getViewport().screenToWorldX(this.sliderBase.intrinsicWidth / 2),
-				this.sliderBase.getPositionY() + this.om.getViewport().screenToWorldY(this.sliderBase.height / 2));
+		this.sliderButton.setPosition(this.sliderBase.getPositionX() - this.sliderBase.intrinsicWidth / 2,
+				this.sliderBase.getPositionY() + (this.sliderBase.intrinsicHeight - this.sliderButton.intrinsicHeight) / 2);
 		this.sliderButtonPressed.setPosition(this.sliderButton.getPositionX(), this.sliderButton.getPositionY());
 		this.originalSliderButtonY = this.sliderButton.getPositionY();
 	}

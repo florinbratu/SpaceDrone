@@ -30,8 +30,6 @@ public interface Constants {
 	// exprimate procentual in fct de dimensiunea componentei(obs pot avea si negativ)
 	public static final float MOVEMENT_SLIDER_BASE_X = 0.50f;
 	public static final float MOVEMENT_SLIDER_BASE_Y = 0.125f;
-    public static final float MOVEMENT_SLIDER_BUTTON_Y = 0.5f;
-    public static final float MOVEMENT_SLIDER_BUTTON_X = -0.25f;
     // offset-urile subcomponentelor din acceleration slider
  	// exprimate procentual in fct de dimensiunea componentei
  	public static final float DIRECTION_KNOB_X = -0.125f;
