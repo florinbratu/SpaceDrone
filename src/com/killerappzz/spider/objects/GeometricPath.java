@@ -3,6 +3,7 @@ package com.killerappzz.spider.objects;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.RectF;
 
@@ -209,6 +210,11 @@ public class GeometricPath extends Path {
 	}
 
 	public void scale(float scaleFactorX, float scaleFactorY) {
+		// first, scale this path, for drawing
+		Matrix scaleMatrix = new Matrix();
+		scaleMatrix.setScale(scaleFactorX, scaleFactorY);
+		super.transform(scaleMatrix);
+		// then, scale our internal structs
 		this.geometry.scale(scaleFactorX, scaleFactorY);
 		this.center.scale(scaleFactorX, scaleFactorY);
 		for(Point2D vertex: this.vertices) {

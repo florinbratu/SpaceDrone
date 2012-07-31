@@ -56,6 +56,9 @@ public class Fence extends DrawableObject implements ICollidable{
 		perimeter.lineTo(200, 400);
 		perimeter.lineTo(200, 200);
 		this.perimeter.close();
+		// scale it according to viewport
+		this.perimeter.scale(this.manager.getViewport().getScaleFactorX(),
+				this.manager.getViewport().getScaleFactorY());
 	}
 	
 	// Load perimeter geometry from file
