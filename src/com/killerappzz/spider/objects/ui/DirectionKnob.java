@@ -128,8 +128,8 @@ public class DirectionKnob extends DrawableObject {
 	}
 
 	public void setTouchSpot(float x, float y) {
-		this.touchSpot.setPosition(x - this.touchSpot.width / 2, 
-				y - this.touchSpot.height / 2);
+		this.touchSpot.setPosition(x - this.touchSpot.intrinsicWidth / 2, 
+				y - this.touchSpot.intrinsicHeight / 2);
 	}
 
 	/*
