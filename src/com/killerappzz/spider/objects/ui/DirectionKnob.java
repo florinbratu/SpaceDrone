@@ -25,6 +25,8 @@ public class DirectionKnob extends DrawableObject {
 	private float centerY;
 	private float knobRadius;
 	private float touchSpotRadius;
+	// za manager
+	private final ObjectManager manager;
 
 	public boolean isPressed() {
 		return pressed;
@@ -34,13 +36,15 @@ public class DirectionKnob extends DrawableObject {
 		this.pressed = pressed;
 		if(!pressed) {
 			// reset knob position
-			setTouchSpot(this.centerX, this.centerY);
+			this.touchSpot.setPosition(this.centerX - this.touchSpot.intrinsicWidth / 2, 
+					this.centerY - this.touchSpot.intrinsicHeight / 2);
 		}
 	}
 	
 	public DirectionKnob(Context context, BitmapFactory.Options bitmapOptions, 
 			int knobResID, int touchSpotResID, ObjectManager manager)
 	{
+		this.manager = manager;
 		// load drawables
 		this.knob = new DrawableUI(context, bitmapOptions, knobResID, manager);
 		this.touchSpot = new DrawableUI(context, bitmapOptions, touchSpotResID, manager);
@@ -96,26 +100,28 @@ public class DirectionKnob extends DrawableObject {
 	}
 
 	public float getTouchRegionX() {
-		return this.knob.getPositionX();
+		return this.manager.getViewport().worldToScreenX(this.knob.getPositionX());
 	}
 
 	public float getTouchRegionY() {
-		return this.knob.getPositionY();
+		return this.manager.getViewport().worldToScreenY(this.knob.getPositionY());
 	}
 
 	public float getTouchRegionWidth() {
-		return this.knob.width;
+		return this.manager.getViewport().worldToScreenX(this.knob.width);
 	}
 
 	public float getTouchRegionHeight() {
-		return this.knob.height;
+		return this.manager.getViewport().worldToScreenY(this.knob.height);
 	}
 
 	/*
 	 * tests whether the given point can be used as the center
 	 * for the touch spot so that it does not go out of bounds
 	 */
-	public boolean touchWithinRegion(float x, float y) {
+	public boolean touchWithinRegion(float touchX, float touchY) {
+		float x = this.manager.getViewport().screenToWorldX(touchX);
+		float y = this.manager.getViewport().screenToWorldY(touchY);
 		float dist = distance(x,y,centerX,centerY);
 		return knobRadius - touchSpotRadius >= dist;
 	}
@@ -127,7 +133,9 @@ public class DirectionKnob extends DrawableObject {
 		return (float)Math.sqrt( dx * dx + dy * dy );
 	}
 
-	public void setTouchSpot(float x, float y) {
+	public void setTouchSpot(float touchX, float touchY) {
+		float x = this.manager.getViewport().screenToWorldX(touchX);
+		float y = this.manager.getViewport().screenToWorldY(touchY);
 		this.touchSpot.setPosition(x - this.touchSpot.intrinsicWidth / 2, 
 				y - this.touchSpot.intrinsicHeight / 2);
 	}
@@ -154,23 +162,25 @@ public class DirectionKnob extends DrawableObject {
 	 *  where dist is the distance between Center and Point.
 	 *  Then, by replacing the value of t in 1), we get the coordinates we want! 
 	 */
-	public void setBorderTouchSpot(float px, float py) {
+	public void setBorderTouchSpot(float touchX, float touchY) {
+		float px = this.manager.getViewport().screenToWorldX(touchX);
+		float py = this.manager.getViewport().screenToWorldY(touchY);
 		float radius = knobRadius - touchSpotRadius;
 		float dist = distance(px,py,centerX,centerY);
 		float t = radius / dist;
 		float touchSpotx = px * t + centerX * (1 - t);
 		float touchSpoty = py * t + centerY * (1 - t);
-		touchSpotx -= this.touchSpot.width / 2;
-		touchSpoty -= this.touchSpot.height / 2;
+		touchSpotx -= this.touchSpot.intrinsicWidth / 2;
+		touchSpoty -= this.touchSpot.intrinsicHeight / 2;
 		this.touchSpot.setPosition(touchSpotx, touchSpoty);
 	}
 
 	public float getNewVelocityX(float touchX) {
-		return touchX - this.centerX;
+		return this.manager.getViewport().screenToWorldX(touchX) - this.centerX;
 	}
 
 	public float getNewVelocityY(float touchY) {
-		return touchY - this.centerY;
+		return this.manager.getViewport().screenToWorldY(touchY) - this.centerY;
 	}
 
 }
