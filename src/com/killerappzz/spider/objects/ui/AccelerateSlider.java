@@ -39,6 +39,8 @@ public class AccelerateSlider extends DrawableObject{
 		this.sliderBase = new DrawableUI(context, bitmapOptions, sliderBaseResID, om);
 		this.sliderButton = new DrawableUI(context, bitmapOptions, sliderButtonResID, om);
 		this.sliderButtonPressed = new DrawableUI(context, bitmapOptions, sliderButtonPressedResID, om);
+		this.width = this.sliderBase.width;
+		this.height = this.sliderBase.height;
 		// inital state == depressed
 		this.pressed = false;
 	}
@@ -81,6 +83,8 @@ public class AccelerateSlider extends DrawableObject{
 		this.sliderBase.updateScreen(width, height);
 		this.sliderButton.updateScreen(width, height);
 		this.sliderButtonPressed.updateScreen(width, height);
+		this.width = this.sliderBase.width;
+		this.height = this.sliderBase.height;
 		// need to reset positions, this will recompute placement of sub elements
 		setPosition(this.x, this.y);
 	}
