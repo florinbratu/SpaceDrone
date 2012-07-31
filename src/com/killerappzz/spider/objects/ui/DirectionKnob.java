@@ -54,18 +54,18 @@ public class DirectionKnob extends DrawableObject {
 		this.x = x;
 		this.y = y;
 		// component positions are relative to the slider position
-		this.knob.setPosition(this.x + Constants.DIRECTION_KNOB_X * this.knob.width
-				- this.knob.width, // this is hackish. we know the component is on the right
+		this.knob.setPosition(this.x + Constants.DIRECTION_KNOB_X * this.knob.intrinsicWidth
+				- this.knob.intrinsicWidth, // this is hackish. we know the component is on the right
 								// that s why we shift it to fit in the visibe area 
-				this.y + Constants.DIRECTION_KNOB_Y * this.knob.height);
-		this.touchSpot.setPosition(this.knob.getPositionX() + (this.knob.width - this.touchSpot.width) / 2, 
-				this.knob.getPositionY() + (this.knob.height - this.touchSpot.height) / 2);
+				this.y + Constants.DIRECTION_KNOB_Y * this.knob.intrinsicHeight);
+		this.touchSpot.setPosition(this.knob.getPositionX() + (this.knob.intrinsicWidth - this.touchSpot.intrinsicWidth) / 2, 
+				this.knob.getPositionY() + (this.knob.intrinsicHeight - this.touchSpot.intrinsicHeight) / 2);
 		// coordinates of the knob center
-		this.centerX = this.knob.getPositionX() + this.knob.width / 2;
-		this.centerY = this.knob.getPositionY() + this.knob.height / 2;
+		this.centerX = this.knob.getPositionX() + this.knob.intrinsicWidth / 2;
+		this.centerY = this.knob.getPositionY() + this.knob.intrinsicHeight / 2;
 		// radiuses for the two circles
-		this.knobRadius = this.knob.width / 2;
-		this.touchSpotRadius = this.touchSpot.width / 2;
+		this.knobRadius = this.knob.intrinsicWidth / 2;
+		this.touchSpotRadius = this.touchSpot.intrinsicWidth / 2;
 	}
 		
 	@Override
