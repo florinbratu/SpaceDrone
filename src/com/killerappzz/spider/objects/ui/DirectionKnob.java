@@ -76,8 +76,7 @@ public class DirectionKnob extends DrawableObject {
 	@Override
 	public void draw(Canvas canvas) {
 		this.knob.draw(canvas);
-		//if(pressed)
-			this.touchSpot.draw(canvas);
+		this.touchSpot.draw(canvas);
 	}
 
 	@Override
