@@ -56,8 +56,12 @@ public class Viewport {
 		return y * this.screenHeight / this.worldHeight;
 	}
 	
-	// will be used by touch pointers so OK even tho not the reverse formulae
 	public float screenToWorldY(float y) {
+		return y * this.worldHeight / this.screenHeight;
+	}
+	
+	// will be used by touch pointers so OK even tho not the reverse formulae
+	public float touchScreenToWorldY(float y) {
 		return (this.screenHeight - y) * this.worldHeight / this.screenHeight;
 	}
 
