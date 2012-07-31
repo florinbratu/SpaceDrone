@@ -32,7 +32,7 @@ public class RotationObject extends Sprite{
 	public void draw(Canvas canvas) {
 		canvas.save();
 		float pivotScreenX = this.theManager.getViewport().worldToScreenX(pivot.x);
-		float pivotScreenY = this.theManager.getViewport().worldToScreenY(pivot.y);
+		float pivotScreenY = canvas.getHeight() - this.theManager.getViewport().worldToScreenY(pivot.y);
 		canvas.rotate(rotationAngle, pivotScreenX, pivotScreenY);
 		super.draw(canvas);
 		canvas.restore();
