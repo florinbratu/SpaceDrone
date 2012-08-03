@@ -99,8 +99,8 @@ public class Game {
         // Make the spider
         Spider spider = new Spider(context, bitmapOptions, R.drawable.spider, manager);
         // the center of the world
-        int centerX = (int)(manager.getViewport().getWorldWidth() - spider.width) / 2;
-        int centerY = (int)(manager.getViewport().getWorldHeight() - spider.height) / 2;
+        int centerX = (int)(manager.getViewport().getWorldWidth() - spider.intrinsicWidth) / 2;
+        int centerY = (int)(manager.getViewport().getWorldHeight() - spider.intrinsicHeight) / 2;
         spider.setPosition(centerX, centerY);
         // speed is set relative to background size. 
         // this way, we are independent of multi screen sizes.

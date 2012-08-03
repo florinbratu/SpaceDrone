@@ -86,18 +86,18 @@ public class Spider extends Sprite implements ICollidable{
 	@Override
 	public void boundsCheck(int worldWidth, int worldHeight) {
     	if ((this.x < 0.0f && this.getVelocityX() < 0.0f) 
-                || (this.x > worldWidth - this.width 
+                || (this.x > worldWidth - this.intrinsicWidth 
                         && this.getVelocityX() > 0.0f)) {
             this.x = Math.max(0.0f, 
-                    Math.min(this.x, worldWidth - this.width));
+                    Math.min(this.x, worldWidth - this.intrinsicWidth));
             this.setVelocity(0, 0);
         }
         
         if ((this.y < 0.0f && this.getVelocityY() < 0.0f) 
-                || (this.y > worldHeight - this.height 
+                || (this.y > worldHeight - this.intrinsicHeight 
                         && this.getVelocityY() > 0.0f)) {
             this.y = Math.max(0.0f, 
-                    Math.min(this.y, worldHeight - this.height));
+                    Math.min(this.y, worldHeight - this.intrinsicHeight));
             this.setVelocity(0, 0);
         }
 	}
