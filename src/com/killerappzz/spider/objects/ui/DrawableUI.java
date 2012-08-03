@@ -14,17 +14,9 @@ import android.graphics.BitmapFactory;
  */
 public class DrawableUI extends Sprite{
 	
-	// the intrinsic dimensions of the object.
-	// these are the original values, before scaling
-	// we use them for alignment calculations
-	public final float intrinsicWidth;
-	public final float intrinsicHeight;
-	
 	public DrawableUI(Context context, BitmapFactory.Options bitmapOptions, int resourceId, ObjectManager manager)
 	{
 		super(context, bitmapOptions, resourceId, manager);
-		this.intrinsicWidth = bitmapOptions.outWidth;
-    	this.intrinsicHeight = bitmapOptions.outHeight;
 	}
 
 	@Override

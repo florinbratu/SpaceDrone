@@ -16,10 +16,16 @@ import android.graphics.Canvas;
 public abstract class Sprite extends DrawableObject {
     protected Bitmap mBitmap;
     protected ObjectManager theManager;
+	// the intrinsic dimensions of the object.
+	// these are the original values, before scaling
+    public final float intrinsicWidth;
+	public final float intrinsicHeight;
     
     public Sprite(Bitmap bitmap, ObjectManager manager) {
         mBitmap = bitmap;
         this.theManager = manager;
+        this.intrinsicHeight = mBitmap.getHeight();
+        this.intrinsicWidth = mBitmap.getWidth();
     }
     
     /**
@@ -38,6 +44,8 @@ public abstract class Sprite extends DrawableObject {
                 Bitmap decodedBitmap = BitmapFactory.decodeStream(is, null, bitmapOptions);
                 this.width = bitmapOptions.outWidth;
             	this.height = bitmapOptions.outHeight;
+            	this.intrinsicWidth = bitmapOptions.outWidth;
+            	this.intrinsicHeight = bitmapOptions.outHeight;
                 // scale the bitch, according to the viewport
                 int dstWidth = (int)(this.width * this.theManager.getViewport().getScaleFactorX());
                 int dstHeight = (int)(this.height * this.theManager.getViewport().getScaleFactorY());
@@ -52,7 +60,8 @@ public abstract class Sprite extends DrawableObject {
                     // Ignore.
                 }
             }
-        }
+        } else
+        	this.intrinsicHeight = this.intrinsicWidth = 0;
     	
     }
     
