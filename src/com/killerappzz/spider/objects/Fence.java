@@ -13,6 +13,11 @@ import com.killerappzz.spider.geometry.Edge2D;
  * The Fence, defining the bounds within which the
  * object should move
  * 
+ * Coordinates of the geometric path are expressed in
+ * a weird coordinates system, which is like the world
+ * coordinates system, but with Y axis flipped.
+ * TODO rewrite for a path in world coordinates
+ * 
  * @author florin
  *
  */

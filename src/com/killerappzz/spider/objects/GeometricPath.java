@@ -214,12 +214,6 @@ public class GeometricPath extends Path {
 		Matrix scaleMatrix = new Matrix();
 		scaleMatrix.setScale(scaleFactorX, scaleFactorY);
 		super.transform(scaleMatrix);
-		// then, scale our internal structs
-		this.geometry.scale(scaleFactorX, scaleFactorY);
-		this.center.scale(scaleFactorX, scaleFactorY);
-		for(Point2D vertex: this.vertices) {
-			vertex.scale(scaleFactorX,scaleFactorY);
-		}
 	}
 	
 }

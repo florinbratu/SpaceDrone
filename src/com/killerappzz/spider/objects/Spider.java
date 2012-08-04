@@ -111,9 +111,9 @@ public class Spider extends Sprite implements ICollidable{
 	/* lock the movement vektor according to the current position
 		this is to ensure consistency with the background scrolling shit*/
 	public void setMovementVector(float timeDeltaSeconds) {
-		this.movementVector.setStartPoint(this.x, this.y);
+		this.movementVector.setStartPoint(this.x, this.om.getViewport().getWorldHeight() - this.y);
 		this.movementVector.setEndPoint(this.x + (this.getVelocityX() * this.speed * timeDeltaSeconds),
-				this.y + (this.getVelocityY() * this.speed * timeDeltaSeconds));
+				this.om.getViewport().getWorldHeight() - (this.y + (this.getVelocityY() * this.speed * timeDeltaSeconds)));
 	}
 	
 	/*
