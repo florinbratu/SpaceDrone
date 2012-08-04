@@ -33,8 +33,8 @@ public class Spider extends Sprite implements ICollidable{
 	}
 	
 	public void setSpeed(Background background) {
-		this.speed = this.defaultSpeed = 0.5f * (background.width + background.height) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
-        this.maxSpeed = 0.5f * (background.width + background.height) / Constants.MAX_SPIDER_SPEED_FACTOR;
+		this.speed = this.defaultSpeed = 0.5f * (background.intrinsicWidth + background.intrinsicHeight) / Constants.DEFAULT_SPIDER_SPEED_FACTOR;
+        this.maxSpeed = 0.5f * (background.intrinsicWidth + background.intrinsicHeight) / Constants.MAX_SPIDER_SPEED_FACTOR;
 	}
 	
 	public void setPusher(RotationObject pusher) {
