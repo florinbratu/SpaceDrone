@@ -107,14 +107,14 @@ public class GeometricPath extends Path {
 	
 	@Override
 	public void offset(float dx, float dy) {
-		super.offset(dx * this.scaleFactorX, dy * this.scaleFactorY);
+		super.offset(dx, dy);
 		// handle local offsets, well... locally!
-		this.center.offset(dx,dy);
+		this.center.offset(dx / this.scaleFactorX ,dy / this.scaleFactorY);
 		for(Point2D vertex: this.vertices) {
-			vertex.offset(dx,dy);
+			vertex.offset(dx / this.scaleFactorX, dy / this.scaleFactorY);
 		}
 		// offset the geometry
-		this.geometry.offset(dx,dy);
+		this.geometry.offset(dx / this.scaleFactorX, dy / this.scaleFactorY);
 	}
 	
 	/**
