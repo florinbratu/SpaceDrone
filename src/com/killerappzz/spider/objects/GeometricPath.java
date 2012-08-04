@@ -30,8 +30,8 @@ public class GeometricPath extends Path {
 	// the points list
 	private final List<Point2D> vertices;
 	// the Scale factors. we need them when Offset'ing
-	private float scaleFactorX;
-	private float scaleFactorY;
+	private float scaleFactorX = 1;
+	private float scaleFactorY = 1;
 	
 	public GeometricPath() {
 		this.geometry = new Path2D.Float();
@@ -213,17 +213,13 @@ public class GeometricPath extends Path {
 	}
 
 	public void scale(float scaleFactorX, float scaleFactorY) {
-		// scale only when factors are != 1
-		// since this is called from updateScreen => we might have just refresh calls
-		if(scaleFactorX!=1||scaleFactorY!=1) {
-			// stash the scale factors
-			this.scaleFactorX = scaleFactorX;
-			this.scaleFactorY = scaleFactorY;
-			// scale this path, for drawing
-			Matrix scaleMatrix = new Matrix();
-			scaleMatrix.setScale(scaleFactorX, scaleFactorY);
-			super.transform(scaleMatrix);
-		}
+		// compose scaling with previous scale ops
+		this.scaleFactorX *= scaleFactorX;
+		this.scaleFactorY *= scaleFactorY;
+		// scale this path, for drawing
+		Matrix scaleMatrix = new Matrix();
+		scaleMatrix.setScale(scaleFactorX, scaleFactorY);
+		super.transform(scaleMatrix);
 	}
 	
 }
