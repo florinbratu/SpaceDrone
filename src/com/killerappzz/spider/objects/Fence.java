@@ -40,19 +40,20 @@ public class Fence extends DrawableObject implements ICollidable{
 	 * */
 	public void inlineCreate(DrawableObject object) {
 		int size = 100;
+		float scrWidth = this.manager.getViewport().getWorldWidth();
+		float scrHeight = this.manager.getViewport().getWorldHeight();
 		// out of bounds polygon
 		/*this.perimeter.moveTo( object.x - size, object.y - size );
-		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y - size );
-		this.perimeter.lineTo( object.x + size + this.scrWidth, object.y + size + this.scrHeight );
-		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size + this.scrHeight );
-		this.perimeter.lineTo( object.x + this.scrWidth, object.y + size );
+		this.perimeter.lineTo( object.x + size + scrWidth, object.y - size );
+		this.perimeter.lineTo( object.x + size + scrWidth, object.y + size + scrHeight );
+		this.perimeter.lineTo( object.x + scrWidth, object.y + size + scrHeight );
+		this.perimeter.lineTo( object.x + scrWidth, object.y + size );
 		this.perimeter.lineTo( object.x - size, object.y + size );*/
-		/* rectangle
-		this.perimeter.moveTo(100, 100);
-		this.perimeter.lineTo(this.scrWidth - 200, 100);
-		this.perimeter.lineTo(this.scrWidth - 200, this.scrHeight - 50);
-		this.perimeter.lineTo(100, this.scrHeight - 50);
-		*/
+		/* rectangle*/
+		/*this.perimeter.moveTo(100, 100);
+		this.perimeter.lineTo( scrWidth - 200, 100);
+		this.perimeter.lineTo( scrWidth - 200, scrHeight - 100);
+		this.perimeter.lineTo(100, scrHeight - 100);*/
 		// hexagone
 		perimeter.moveTo(300, 0);
 		perimeter.lineTo(400,200);
