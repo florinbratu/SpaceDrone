@@ -199,14 +199,14 @@ public class ObjectManager extends SimpleOnGestureListener{
 	}
 
 	public boolean needXExpansion(float worldWidth) {
-		return ((spider.x < worldWidth * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityX() < 0.0f) 
-                || (spider.x > worldWidth - worldWidth * Constants.EXPANSION_PERCENTILE / 100
+		return ((spider.x < spider.intrinsicWidth * Constants.EXPANSION_FACTOR && spider.getVelocityX() < 0.0f) 
+                || (spider.x > worldWidth - spider.intrinsicWidth * Constants.EXPANSION_FACTOR
                         && spider.getVelocityX() > 0.0f));
 	}
 	
 	public boolean needYExpansion(float worldHeight) {
-		return ((spider.y < worldHeight * Constants.EXPANSION_PERCENTILE / 100 && spider.getVelocityY() < 0.0f) 
-                || (spider.y > worldHeight - worldHeight * Constants.EXPANSION_PERCENTILE / 100 
+		return ((spider.y < spider.intrinsicHeight * Constants.EXPANSION_FACTOR && spider.getVelocityY() < 0.0f) 
+                || (spider.y > worldHeight - spider.intrinsicHeight * Constants.EXPANSION_FACTOR
                         && spider.getVelocityY() > 0.0f));
 	}
 

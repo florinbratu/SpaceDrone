@@ -19,8 +19,12 @@ public interface Constants {
 	
 	/* procentul de ecran pe care il mai afisez inainte 
 	 * sa incep sa scrollez ecranul
+	 * Acuma este dependent de dimensiunea Spider-ului
+	 * si nu de dimensiunea ecranului! 
+	 * TODO nu mai vine odata HUD-ul ala care sa-mi dicteze
+	 * zona de expansion...
 	 * */
-	public static final int EXPANSION_PERCENTILE = 15;
+	public static final int EXPANSION_FACTOR = 2;
 
 	// unde afisez stats uri like fps
 	public static final int STATS_POSITION_X = 0;
