@@ -12,6 +12,10 @@ import android.graphics.Canvas;
 /**
  * The Canvas version of a sprite.  This class keeps a pointer to a bitmap
  * and draws it at the Sprite's current location.
+ * 
+ * OBS coordinates x,y are the lower left corner coordinates,
+ * 	expressed in world coordinates. Should you need anything
+ *  else => subclass and implement yer own stuff
  */
 public abstract class Sprite extends DrawableObject {
     protected Bitmap mBitmap;
