@@ -15,7 +15,9 @@ import android.graphics.Rect;
  * 
  * NB: the (x,y) coordinates are the coordinates
  * of the upper left corner of the piece from the big img
- * to be displayed on screen! Good to know when camera effect
+ * to be displayed on screen! Also they are expressed in 
+ * Screen coordinates system(directly)
+ * Good to know when camera effect
  * is made by moving the background selection window.
  * 
  * @author florin
